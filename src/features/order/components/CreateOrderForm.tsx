@@ -11,10 +11,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/toast';
 import type { Batch } from '@/features/batch/type';
-import { createOrderSchema, type CreateOrderFormValues } from '../schemas';
+import { createOrderSchema, type CreateOrderFormValues, ORDER_LIMITS} from '../schemas';
 import type { CreateManualOrderPayload } from '../types';
 import OptionSelect from './OptionSelect';
-import { ORDER_LIMITS } from '../schemas';
 
 const emptyItem = { name: '', qty: '1', note: '' };
 
@@ -143,7 +142,7 @@ const CreateOrderForm = ({ batches, onSubmit, onSuccess, onFailure }: Props) => 
             <Field>
               <FieldLabel>Batch</FieldLabel>
               <OptionSelect
-                className="w-full"
+                className="w-full text-foreground-primary"
                 emptyLabel="Batch aktif (otomatis)"
                 value={field.state.value || undefined}
                 options={batches.map((batch) => ({
@@ -165,7 +164,7 @@ const CreateOrderForm = ({ batches, onSubmit, onSuccess, onFailure }: Props) => 
           {(itemsField) => (
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Barang</span>
+                <span className="text-sm font-medium text-black">Barang</span>
                 <Button
                   type="button"
                   variant="outline"

@@ -93,6 +93,7 @@ const OpenBatchForm = ({ onSubmit, onSuccess, onFailure }: Props) => {
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>Tanggal mulai</FieldLabel>
                 <Input
+                className="text-slate-600"
                   id={field.name}
                   name={field.name}
                   type="date"
@@ -114,6 +115,7 @@ const OpenBatchForm = ({ onSubmit, onSuccess, onFailure }: Props) => {
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>Target selesai (opsional)</FieldLabel>
                 <Input
+                className="text-slate-600"
                   id={field.name}
                   name={field.name}
                   type="date"

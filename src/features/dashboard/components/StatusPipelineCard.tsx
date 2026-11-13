@@ -7,15 +7,15 @@ type Props = {
 };
 
 const SEGMENT_COLORS = [
-  'bg-sky-300',
-  'bg-sky-400',
-  'bg-blue-300',
-  'bg-blue-400',
-  'bg-blue-500',
-  'bg-indigo-400',
-  'bg-cyan-400',
-  'bg-cyan-500',
-  'bg-blue-600',
+  'bg-pink-100',
+  'bg-pink-200',
+  'bg-pink-300',
+  'bg-pink-400',
+  'bg-pink-500',
+  'bg-pink-600',
+  'bg-pink-700',
+  'bg-pink-800',
+  'bg-pink-900',
 ];
 
 const StatusPipelineCard = ({ byStatus }: Props) => {

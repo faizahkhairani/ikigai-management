@@ -1,13 +1,14 @@
+import { ChevronDown } from 'lucide-react';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { cn } from 'cn';
 
-const EMPTY = '__none__'; // Select gak boleh punya item dengan value kosong
+const EMPTY = '__none__';
 
 type Props<T extends string> = {
   emptyLabel: string;
@@ -25,35 +26,39 @@ const OptionSelect = <T extends string>({
   className = 'w-44',
 }: Props<T>) => {
   const items = [{ value: EMPTY, label: emptyLabel }, ...options];
+  const current = items.find((item) => item.value === (value ?? EMPTY));
 
   return (
-  <Select
-    items={items}
-    value={value ?? EMPTY}
-    onValueChange={(next) =>
-      onChange(!next || next === EMPTY ? undefined : (next as T))
-    }
-  >
-    <SelectTrigger
-      className={cn(
-        'h-9 w-full rounded-md border-slate-200 bg-white text-sm text-slate-600 shadow-none',
-        'hover:bg-slate-50 focus-visible:border-blue-400 focus-visible:ring-2 focus-visible:ring-blue-100',
-        'sm:w-36',
-        className
-      )}
-    >
-      <SelectValue placeholder={emptyLabel} />
-    </SelectTrigger>
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        className={cn(
+          'group flex h-9 w-full items-center justify-between gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm text-black shadow-sm outline-none transition-colors',
+          'hover:bg-slate-50 focus-visible:border-blue-400 focus-visible:ring-2 focus-visible:ring-blue-100',
+          'data-[popup-open]:border-blue-400 data-[state=open]:border-blue-400',
+          'sm:w-36',
+          className
+        )}
+      >
+        <span className="truncate">{current?.label ?? emptyLabel}</span>
+        <ChevronDown className="size-4 shrink-0 text-slate-400 transition-transform duration-200 group-data-[popup-open]:rotate-180 group-data-[state=open]:rotate-180" />
+      </DropdownMenuTrigger>
 
-    <SelectContent>
-      {items.map((item) => (
-        <SelectItem key={item.value} value={item.value}>
-          {item.label}
-        </SelectItem>
-      ))}
-    </SelectContent>
-  </Select>
-)
+      <DropdownMenuContent align="start" className="min-w-40">
+        <DropdownMenuRadioGroup
+          value={value ?? EMPTY}
+          onValueChange={(next) =>
+            onChange(!next || next === EMPTY ? undefined : (next as T))
+          }
+        >
+          {items.map((item) => (
+            <DropdownMenuRadioItem key={item.value} value={item.value}>
+              {item.label}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 };
 
 export default OptionSelect;
