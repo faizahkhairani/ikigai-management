@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { order_status_label, order_status_variant } from '@/features/order/constants';
 import { formatTime } from '@/lib/format';
 import type { DashboardTodayOrder } from '../types';
-import { ArrowRight, ShoppingBag } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 type Props = {
   orders: DashboardTodayOrder[]; // maksimal 10 terbaru
@@ -35,15 +35,17 @@ const TodayOrdersCard = ({ orders, total }: Props) => (
 
     <CardContent className="px-4 pb-4 sm:px-5">
       {orders.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50/50 px-4 py-8 text-center">
-          <div className="flex size-10 items-center justify-center rounded-full bg-slate-100">
-            <ShoppingBag className="size-5 text-slate-400" />
-          </div>
+        <div className="flex flex-col items-center justify-center text-center">
+          <img 
+          src="/no-data-found.png" 
+          alt="No Data" 
+          className='h-35 w-35 object-contain'
+          />
           <p className="mt-3 text-sm font-medium text-slate-700">
-            Belum ada order masuk
+            No Order Found
           </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Pesanan yang masuk hari ini akan ditampilkan di sini.
+          <p className="mt-1 text-xs text-slate-700">
+            There is no Data to show you right now
           </p>
         </div>
       ) : (

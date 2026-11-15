@@ -20,6 +20,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { NavUser } from './sidebar/NavUser';
 
 const navItems = [
   { title: 'Dashboard', url: '/', icon: LayoutDashboard },
@@ -44,9 +45,9 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              size="lg"
+              size="xl"
               render={<Link to="/" />}
-              className="group-data-[collapsible=icon]:p-0!"
+              variant='ghost'
             >
               <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-pastel-pink-text">
                 <ShoppingBag className='text-white' />
@@ -90,19 +91,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg">
-              <span className="flex size-8 items-center justify-center rounded-lg bg-muted text-sm font-semibold">
-                A
-              </span>
-              <div className="grid flex-1 text-start text-sm leading-tight">
-                <span className="truncate font-semibold">Admin</span>
-                <span className="truncate text-xs text-muted-foreground">admin@ikigai.com</span>
-              </div>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

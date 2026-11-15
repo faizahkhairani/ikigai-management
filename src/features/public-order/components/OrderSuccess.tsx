@@ -77,7 +77,7 @@ const OrderSuccess = ({ trackingToken, onNewOrder }: Props) => {
         to={trackingPath}
         className={buttonVariants({
           className:
-            "h-11 w-full rounded-xl bg-black! text-white! hover:bg-black!",
+            "h-11 w-full rounded-xl",
         })}
       >
         Lihat status order

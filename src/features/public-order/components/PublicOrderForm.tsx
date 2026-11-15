@@ -48,11 +48,13 @@ function SectionHeader({
 }) {
   return (
     <header className="mb-6">
-      <p className="text-[11px] font-medium tracking-[0.2em] text-rose-400">
+      <p className="text-[11px] font-bold tracking-[0.2em] text-pink-500">
         {no}
       </p>
-      <h2 className="mt-1 font-serif text-xl text-stone-900">{title}</h2>
-      <p className="mt-1 text-sm text-stone-500">{desc}</p>
+      <h2 className="mt-1 text-xl font-bold tracking-tight text-slate-800">
+        {title}
+      </h2>
+      <p className="mt-1 text-sm text-slate-500">{desc}</p>
     </header>
   );
 }
@@ -98,13 +100,12 @@ return (
   className="rounded-3xl bg-white p-5 shadow-[0_1px_2px_rgba(28,25,23,0.04),0_12px_32px_-12px_rgba(28,25,23,0.08)] ring-1 ring-stone-200/70 sm:p-8"
 >
   {/* Intro */}
-  <aside className="mb-8 flex items-start gap-3 border-l-2 border-rose-300 bg-rose-50/40 py-2.5 pl-4 pr-3">
-    <Info className="mt-0.5 size-4 shrink-0 text-rose-400" />
-    <p className="text-xs leading-5 text-stone-600">
-      <span className="font-medium text-stone-900">Tips tracking: </span>
+  <aside className="mb-8 flex items-start gap-3 rounded-2xl border bg-pastel-blue p-4">
+    <Info className="mt-0.5 size-4 shrink-0 text-pink-500" />
+    <p className="text-xs leading-5 text-slate-600">
+      <span className="font-semibold text-slate-800">Tips tracking: </span>
       Setelah order berhasil dikirim, kamu akan menerima tracking token untuk
-      melacak pesanan. Jika token hilang, kamu tetap bisa menggunakan nomor
-      resi.
+      melacak pesanan. Jika token hilang, kamu tetap bisa menggunakan nomor resi.
     </p>
   </aside>
 
@@ -236,10 +237,10 @@ return (
           <section className="py-8">
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-[11px] font-medium tracking-[0.2em] text-rose-400">
+                <p className="text-[11px] font-bold tracking-[0.2em] text-rose-400">
                   03
                 </p>
-                <h2 className="mt-1 font-serif text-xl text-stone-900">
+                <h2 className="mt-1 text-xl font-bold tracking-tight text-stone-900">
                   Barang titipan
                 </h2>
                 <p className="mt-1 text-sm text-stone-500">
@@ -249,10 +250,11 @@ return (
 
               <Button
                 type="button"
-                variant="outline"
+                variant="pink"
                 size="sm"
                 disabled={itemsField.state.value.length >= ORDER_LIMITS.maxItems}
                 onClick={() => itemsField.pushValue({ ...emptyItem })}
+                className="px-3 py-4"
               >
                 <Plus className="mr-1.5 size-4" />
                 Tambah barang
@@ -263,10 +265,10 @@ return (
               {itemsField.state.value.map((_, index) => (
                 <div
                   key={index}
-                  className="rounded-2xl bg-stone-50/80 p-4 ring-1 ring-stone-200/70"
+                  className="rounded-2xl bg-pastel-bg p-4"
                 >
                   <div className="mb-4 flex items-center justify-between">
-                    <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-stone-400">
+                    <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-pastel-pink-text">
                       Barang {String(index + 1).padStart(2, "0")}
                     </span>
 
@@ -276,7 +278,7 @@ return (
                         variant="ghost"
                         size="icon"
                         aria-label={`Hapus barang ${index + 1}`}
-                        className="size-8 rounded-full text-stone-400 hover:bg-rose-50 hover:text-rose-600"
+                        className="size-8 rounded-full text-pastel-pink-text hover:bg-rose-50 hover:text-rose-600"
                         onClick={() => itemsField.removeValue(index)}
                       >
                         <Trash2 className="size-4" />
@@ -370,11 +372,11 @@ return (
               ))}
             </div>
 
-            <div className="mt-5 flex items-baseline justify-between border-t border-dashed border-stone-300 pt-4">
-              <span className="text-sm text-stone-500">Total jenis barang</span>
+            <div className="mt-5 flex items-baseline justify-between border-t border-dashed border-stone-500 pt-4">
+              <span className="text-sm text-black">Total jenis barang</span>
               <span className="font-serif text-lg text-stone-900">
                 {itemsField.state.value.length}{" "}
-                <span className="font-sans text-sm text-stone-500">barang</span>
+                <span className="text-sm text-black">barang</span>
               </span>
             </div>
           </section>
@@ -385,8 +387,8 @@ return (
     {/* Submit */}
     <div className="space-y-4">
       <div className="flex items-start gap-2.5">
-        <ShieldCheck className="mt-0.5 size-4 shrink-0 text-stone-400" />
-        <p className="text-xs leading-5 text-stone-500">
+        <ShieldCheck className="mt-0.5 size-4 shrink-0" />
+        <p className="text-xs leading-5">
           Pastikan nomor resi dan informasi barang sudah benar sebelum mengirim
           pesanan.
         </p>
@@ -397,7 +399,8 @@ return (
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="group h-10 w-full rounded-full bg-stone-900 text-sm font-medium text-white shadow-lg shadow-stone-900/10 transition-all hover:bg-stone-800 disabled:opacity-60"
+            variant="pink"
+            className="group h-10 w-full rounded-full text-sm font-medium transition-all disabled:opacity-60"
           >
             {isSubmitting ? (
               <>

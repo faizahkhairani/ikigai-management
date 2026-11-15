@@ -31,7 +31,7 @@ const TrackDetailPage = () => {
   <div className="flex flex-col gap-5">
     <Link
       to="/track"
-      className="group inline-flex items-center gap-2 self-start text-sm font-medium text-stone-500 transition-colors hover:text-stone-900"
+      className="group inline-flex items-center gap-2 self-start text-sm font-medium text-stone-700 transition-colors hover:text-stone-900"
     >
       <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
       Cari order lainnya

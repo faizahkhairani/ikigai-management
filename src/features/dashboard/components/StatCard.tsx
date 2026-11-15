@@ -1,4 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { cn } from 'cn';
 import type { LucideIcon } from 'lucide-react';
 
 const TONES = {
@@ -24,26 +25,35 @@ type Props = {
   title: string;
   value: number;
   hint?: string;
-  tone?: keyof typeof TONES
-  icon: LucideIcon
+  tone?: keyof typeof TONES;
+  icon: LucideIcon;
 };
 
-const StatCard = ({title, value, hint, icon: Icon }: Props) => {
-  return(
-    //  <Card className={cn('rounded-2xl border-0 py-0 shadow-none ring-1', t.card)}>
-     <Card className="px-3 py-5">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className='text-sm font-medium'>
-          {title}
-        </CardTitle>
-          <Icon className="size-5" />
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col gap-1">
+const StatCard = ({ title, value, hint, tone = 'blue', icon: Icon }: Props) => {
+  const t = TONES[tone];
+
+  return (
+    <Card className="bg-white rounded-xl">
+      <CardContent className="flex items-center gap-4 px-4 py-2.5">
+        <span
+          className={cn(
+            'flex size-14 shrink-0 items-center justify-center rounded-xl',
+            t.chip
+          )}
+        >
+          <Icon className="size-7" />
+        </span>
+
+        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span className="truncate text-sm font-medium text-slate-600">
+            {title}
+          </span>
           <span className="text-3xl font-semibold tracking-tight text-slate-900 tabular-nums">
             {value}
           </span>
-          {hint && <span className="text-xs text-slate-500">{hint}</span>}
+          {hint && (
+            <span className="truncate text-xs text-slate-500">{hint}</span>
+          )}
         </div>
       </CardContent>
     </Card>

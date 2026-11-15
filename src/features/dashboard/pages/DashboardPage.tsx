@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useBatches } from '@/features/batch/hooks/useBatch';
 import OptionSelect from '@/features/order/components/OptionSelect';
 import DashboardSkeleton from '../components/DashboardSkeleton';
-import PaymentSummaryCard from '../components/PaymentSummaryCard';
 import StatCard from '../components/StatCard';
 import StatusPipelineCard from '../components/StatusPipelineCard';
+import PaymentChart from '../components/PaymentChart';
 import { useDashboard } from '../hooks/useDashboard';
 import { useAuthStore } from '@/features/auth/store'
 import { Package, CalendarCheck, PauseCircle, AlertTriangle, Layers } from 'lucide-react';
@@ -40,10 +40,10 @@ const DashboardPage = () => {
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         {data?.batch && !showSkeleton ? (
-          <span className="inline-flex items-center gap-2 rounded-lg bg-black px-3.5 py-1.5 text-xs font-medium text-white">
+          <span className="inline-flex items-center gap-2 rounded-lg bg-pastel-blue-soft px-3.5 py-1.5 text-xs font-medium text-pastel-blue-dark">
             <span
               className={cn(
-                'size-1.5 rounded-full',
+                'size-1.5 rounded-full animate-ping opacity-75',
                 data.batch.status === 'active' ? 'bg-emerald-500' : 'bg-slate-400'
               )}
             />
@@ -93,9 +93,10 @@ const DashboardPage = () => {
           <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
             <div className="flex flex-col gap-2">
             <StatusPipelineCard byStatus={data.byStatus} />
-            <PaymentSummaryCard byPayment={data.byPayment} />
-            </div>
+            {/* <PaymentSummaryCard byPayment={data.byPayment} /> */}
             <TodayOrdersCard orders={data.todayOrders} total={data.todayCount} />
+            </div>
+            <PaymentChart byPayment={data.byPayment} />
           </div>
         </>
       )}

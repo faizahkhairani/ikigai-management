@@ -19,21 +19,24 @@ const TrackedOrderCard = ({ order }: Props) => (
     {/* Order information */}
     <div className="flex flex-col gap-4 p-4 sm:p-5">
       <div className="flex flex-col gap-1">
-        <span className="text-xs font-medium text-slate-400">
+        <div className="flex justify-between gap-2">
+        <span className="text-xs font-medium text-slate-700">
           Nomor Resi
         </span>
+         <Badge className='px-2 py-3 text-xs bg-pastel-blue text-pastel-blue-text'>
+            {formatDate(order.createdAt)}
+          </Badge>
+        </div>
 
         <h2 className="break-all font-mono text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
           {order.resiThailand}
         </h2>
-
-        <p className="text-xs text-slate-500">
+        
+        <p className="text-xs text-slate-700">
           Atas nama{" "}
           <span className="font-medium text-slate-700">
             {order.customer.name}
           </span>
-          {" · "}
-          {formatDate(order.createdAt)}
         </p>
       </div>
 

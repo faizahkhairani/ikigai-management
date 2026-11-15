@@ -135,7 +135,7 @@
   --chart-5: #059669;
 
   /* Sidebar */
-  --sidebar: #ffffff;
+  /* --sidebar: oklch(97.1% 0.014 343.198);
   --sidebar-foreground: #334155;
 
   --sidebar-primary: #3b82f6;
@@ -145,7 +145,20 @@
   --sidebar-accent-foreground: #2563eb;
 
   --sidebar-border: #e2e8f0;
-  --sidebar-ring: #93c5fd;
+  --sidebar-ring: #93c5fd; */
+
+  --sidebar: oklch(97.1% 0.014 343.198);
+  --sidebar-foreground: #334155;
+
+  --sidebar-primary: var(--color-pastel-pink-dark);
+  --sidebar-primary-foreground: #ffffff;
+  
+    /* warna sidebar */
+  --sidebar-accent: var(--color-pastel-pink-text);
+  --sidebar-accent-foreground: #ffffff;
+
+  --sidebar-border: #fce7f1;
+  --sidebar-ring: var(--color-pastel-pink-dark);
 }
 
 
