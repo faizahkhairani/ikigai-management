@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import {
   order_status_label,
-  order_status_variant,
+  order_status_class,
   payment_status_label,
   payment_status_variant,
 } from '@/features/order/constants';
@@ -41,7 +41,7 @@ const TrackedOrderCard = ({ order }: Props) => (
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Badge variant={order_status_variant[order.status]}>
+        <Badge className={order_status_class[order.status]}>
           {order_status_label[order.status]}
         </Badge>
 

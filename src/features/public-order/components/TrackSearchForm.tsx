@@ -47,7 +47,8 @@ const TrackSearchForm = ({ initialValue, onSearch }: Props) => {
 
           <Button
             type="submit"
-            className="h-10 w-full shrink-0 rounded-full bg-stone-900 px-6 font-medium text-white shadow-lg shadow-stone-900/10 transition-colors hover:bg-stone-800 sm:w-auto"
+            variant="pink"
+            className="h-10 w-full shrink-0 rounded-full px-6 font-medium sm:w-auto"
           >
             <Search className="mr-2 size-4" />
             Cari order

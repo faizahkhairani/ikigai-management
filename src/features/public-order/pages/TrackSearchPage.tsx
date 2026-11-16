@@ -17,7 +17,7 @@ const TrackSearchPage = () => {
       <p className="text-[11px] font-medium tracking-[0.2em] text-rose-400">
         TRACKING
       </p>
-      <h1 className="font-serif text-3xl tracking-tight text-stone-900 sm:text-4xl">
+      <h1 className="font-bold text-2xl tracking-tight text-stone-900 sm:text-4xl">
         Cek status order
       </h1>
       <p className="text-sm leading-6 text-stone-500">

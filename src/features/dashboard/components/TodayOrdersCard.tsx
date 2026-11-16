@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { order_status_label, order_status_variant } from '@/features/order/constants';
+import { order_status_label, order_status_class } from '@/features/order/constants';
 import { formatTime } from '@/lib/format';
 import type { DashboardTodayOrder } from '../types';
 import { ArrowRight } from 'lucide-react';
@@ -73,8 +73,7 @@ const TodayOrdersCard = ({ orders, total }: Props) => (
                   </div>
 
                   <Badge
-                    variant={order_status_variant[order.status]}
-                    className="shrink-0"
+                    className={order_status_class[order.status]}
                   >
                     {order_status_label[order.status]}
                   </Badge>

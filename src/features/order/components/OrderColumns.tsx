@@ -4,7 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { formatDate } from '@/lib/format';
 import {
     order_status_label,
-    order_status_variant,
+    order_status_class,
     payment_status_label,
     payment_status_variant,
     order_type_label
@@ -67,7 +67,7 @@ export const orderColumns: ColumnDef<Order>[] = [
     header: 'Status',
     cell: ({ row }) => (
       <div className="flex items-center gap-1">
-        <Badge variant={order_status_variant[row.original.status]}>
+        <Badge className={order_status_class[row.original.status]}>
           {order_status_label[row.original.status]}
         </Badge>
         {row.original.isHeld && (

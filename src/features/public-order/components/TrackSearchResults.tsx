@@ -2,7 +2,7 @@ import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { order_status_label, order_status_variant } from '@/features/order/constants';
+import { order_status_label, order_status_class } from '@/features/order/constants';
 import { formatDate } from '@/lib/format';
 import type { TrackedOrderSummary } from '../types';
 
@@ -45,7 +45,7 @@ const TrackSearchResults = ({ orders, isLoading }: Props) => {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant={order_status_variant[order.status]}>
+              <Badge className={order_status_class[order.status]}>
                 {order_status_label[order.status]}
               </Badge>
               <ChevronRight className="size-4 text-muted-foreground" />

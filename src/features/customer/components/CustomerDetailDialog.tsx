@@ -9,7 +9,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   order_status_label,
-  order_status_variant,
+  order_status_class,
   payment_status_label,
   payment_status_variant,
 } from '@/features/order/constants';
@@ -158,7 +158,7 @@ const CustomerDetailDialog = ({ customerId, open, onOpenChange }: Props) => {
                     </div>
 
                     <div className="flex flex-wrap gap-1.5 border-t border-slate-100 pt-2.5">
-                      <Badge variant={order_status_variant[order.status]}>
+                      <Badge className={order_status_class[order.status]}>
                         {order_status_label[order.status]}
                       </Badge>
 

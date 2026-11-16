@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import {
   order_status_label,
-  order_status_variant,
+  order_status_class,
   order_type_label,
   payment_status_label,
   payment_status_variant,
@@ -61,7 +61,7 @@ const OrderDetailDialog = ({ orderId, open, onOpenChange, onSuccess }: Props) =>
         {order && (
           <div className="flex flex-col gap-5">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant={order_status_variant[order.status]}>
+              <Badge className={order_status_class[order.status]}>
                 {order_status_label[order.status]}
               </Badge>
               <Badge variant={payment_status_variant[order.paymentStatus]}>

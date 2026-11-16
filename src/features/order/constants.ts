@@ -28,18 +28,18 @@ export const order_status_label: Record<OrderStatus, string> = {
   CANCELLED: 'Cancelled',
 };
 
-export const order_status_variant: Record<OrderStatus, BadgeVariant> = {
-  WAITING: 'secondary',
-  ARRIVED_THAILAND: 'outline',
-  ARRIVED_INDONESIA: 'outline',
-  SORTING: 'outline',
-  PACKING_QUEUE: 'outline',
-  PACKING: 'outline',
-  READY_TO_SHIP: 'outline',
-  SHIPPED: 'outline',
-  COMPLETED: 'default',
-  ISSUE: 'destructive',
-  CANCELLED: 'destructive',
+export const order_status_class: Record<OrderStatus, string> = {
+  WAITING: 'bg-gray-100 text-gray-700',
+  ARRIVED_THAILAND: 'bg-emerald-100 text-emerald-500',
+  ARRIVED_INDONESIA: 'text-sky-500 bg-sky-100',
+  SORTING: 'bg-violet-100 text-violet-500',
+  PACKING_QUEUE: 'bg-amber-100  text-amber-500',
+  PACKING: 'bg-orange-100  text-orange-500',
+  READY_TO_SHIP: 'bg-cyan-100  text-cyan-500',
+  SHIPPED: 'bg-pink-100 text-pink-500',
+  COMPLETED: 'bg-blue-100  text-blue-500',
+  ISSUE: 'bg-red-100  text-red-500',
+  CANCELLED: 'bg-slate-100  text-slate-500',
 };
 
 export const order_date_options: { value: OrderDatePreset; label: string }[] = [
