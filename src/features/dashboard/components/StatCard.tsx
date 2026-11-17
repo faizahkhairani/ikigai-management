@@ -1,23 +1,24 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from 'cn';
 import type { LucideIcon } from 'lucide-react';
+import { TrendBadge } from './TrendBadge';
 
 const TONES = {
   blue: {
-    card: 'bg-pastel-blue ring-blue-100',
-    chip: 'bg-pastel-blue-soft text-pastel-blue-text',
+    chip: 'bg-blue-100 text-pastel-blue-text',
+    label: 'text-pastel-blue-text',
   },
   mint: {
-    card: 'bg-pastel-mint ring-emerald-100',
-    chip: 'bg-pastel-mint-soft text-pastel-mint-text',
+    chip: 'bg-emerald-100 text-pastel-mint-text',
+    label: 'text-pastel-mint-text',
   },
   amber: {
-    card: 'bg-pastel-amber ring-amber-100',
-    chip: 'bg-pastel-amber-soft text-pastel-amber-text',
+    chip: 'bg-amber-100 text-pastel-amber-text',
+    label: 'text-pastel-amber-text',
   },
   pink: {
-    card: 'bg-pastel-pink ring-pink-100',
-    chip: 'bg-pastel-pink-soft text-pastel-pink-text',
+    chip: 'bg-red-100 text-pastel-pink-text',
+    label: 'text-pastel-pink-text',
   },
 } as const;
 
@@ -27,34 +28,47 @@ type Props = {
   hint?: string;
   tone?: keyof typeof TONES;
   icon: LucideIcon;
+  previous?: number | null;
+  compareLabel?: string;
 };
 
-const StatCard = ({ title, value, hint, tone = 'blue', icon: Icon }: Props) => {
+const StatCard = ({ title, value, hint, tone = 'blue', icon: Icon, previous, compareLabel }: Props) => {
   const t = TONES[tone];
 
   return (
-    <Card className="bg-white rounded-xl">
-      <CardContent className="flex items-center gap-4 px-4 py-2.5">
-        <span
-          className={cn(
-            'flex size-14 shrink-0 items-center justify-center rounded-xl',
-            t.chip
-          )}
-        >
-          <Icon className="size-7" />
-        </span>
-
-        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="truncate text-sm font-medium text-slate-600">
+    <Card className="bg-white border-none rounded-xl shadow-none">
+      <CardContent className="flex flex-col gap-4 px-4">
+        <div className="flex items-center gap-2">
+          <span
+            className={cn(
+              'flex size-7 shrink-0 items-center justify-center rounded-full',
+              t.chip
+            )}
+          >
+            <Icon className="size-4" />
+          </span>
+          <span className="truncate text-sm font-medium text-black">
             {title}
           </span>
-          <span className="text-3xl font-semibold tracking-tight text-slate-900 tabular-nums">
+          {previous !== undefined && (
+            <div className='ml-auto'>
+              <TrendBadge current={value} previous={previous} />
+            </div>
+          )}
+        </div>
+        <div className="flex gap-2 items-end">
+          <span className="text-3xl font-extrabold tracking-tight text-slate-900 tabular-nums">
             {value}
           </span>
           {hint && (
             <span className="truncate text-xs text-slate-500">{hint}</span>
           )}
+
         </div>
+        
+        {compareLabel && (
+          <p className={cn('text-sm font-medium', t.label)}>{compareLabel}</p>
+        )}
       </CardContent>
     </Card>
   );

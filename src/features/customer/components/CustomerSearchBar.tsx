@@ -26,7 +26,7 @@ const CustomerSearchBar = ({ value, onApply }: Props) => {
   return (
     <form className="flex gap-2" onSubmit={handleSubmit}>
       <Input
-        className="w-72 shadow-sm"
+        className="w-72 shadow-sm bg-white"
         placeholder="Cari nama atau no WA"
         value={draft}
         onChange={(e) => setDraft(e.target.value)}

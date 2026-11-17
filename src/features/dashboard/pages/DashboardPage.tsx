@@ -10,6 +10,8 @@ import { useAuthStore } from '@/features/auth/store'
 import { Package, CalendarCheck, PauseCircle, AlertTriangle, Layers } from 'lucide-react';
 import { cn } from "cn"
 import TodayOrdersCard from '../components/TodayOrdersCard';
+import { NeedsAttentionCard } from '../components/NeedsAttentionCard';
+import TodayOrderTable from '../components/TodaysOrderTable';
 
 const DashboardPage = () => {
   const { profile } = useAuthStore();
@@ -18,55 +20,59 @@ const DashboardPage = () => {
   const { batches } = useBatches(); // untuk pilihan batch, diambil dari cache
   const { data, isLoading, isFetching, error } = useDashboard(batchId);
 
+  const cmp = data?.comparison
+
   if (error) return <p className="text-destructive">Gagal memuat dashboard.</p>;
 
   const showSkeleton = isLoading || isFetching;
 
   return (
-    <div className="flex flex-col gap-5">
-      <div>
-      <div className="flex items-center">
-        <h1 className="text-2xl text-black font-bold">Welcome back, {profile?.name}</h1>
-        {/* <img
-          src="/domiia.svg"
-          alt="Welcome illustration"
-          className="h-10 w-10 object-contain"
-        /> */}
-      </div>
-      <p className="text-sm text-slate-500">
-        Berikut ringkasan aktivitas order terbaru.
-      </p> 
-      </div>
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+            Welcome back, {profile?.name}
+          </h1>
+          <p className="text-sm text-slate-500">
+            Berikut ringkasan aktivitas order terbaru.
+          </p>
+        </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        {data?.batch && !showSkeleton ? (
-          <span className="inline-flex items-center gap-2 rounded-lg bg-pastel-blue-soft px-3.5 py-1.5 text-xs font-medium text-pastel-blue-dark">
+        <div className="flex items-center gap-3">
+          {data?.batch && !showSkeleton && (
             <span
               className={cn(
-                'size-1.5 rounded-full animate-ping opacity-75',
-                data.batch.status === 'active' ? 'bg-emerald-500' : 'bg-slate-400'
+                'inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium',
+                data.batch.status === 'active'
+                  ? 'bg-pastel-blue-soft text-pastel-blue-text'
+                  : 'bg-slate-100 text-slate-600'
               )}
-            />
-            {data.batch.name} · {data.batch.status === 'active' ? 'Aktif' : 'Ditutup'}
-          </span>
-        ) : (
-          <span />
-        )}
+            >
+              <span
+                className={cn(
+                  'size-1.5 rounded-full',
+                  data.batch.status === 'active' ? 'bg-pastel-blue-text' : 'bg-slate-400'
+                )}
+              />
+              {data.batch.status === 'active' ? 'Active' : 'Closed'}
+            </span>
+          )}
 
-        <OptionSelect
-          className="w-64"
-          emptyLabel="Pilih batch..."
-          value={batchId}
-          options={batches.map((batch) => ({
-            value: batch.id,
-            label:
-              batch.status === 'closed'
-                ? `${batch.name} · Ditutup`
-                : `${batch.name} · Aktif`,
-          }))}
-          onChange={setBatchId}
-        />
-      </div>
+          <OptionSelect
+            className="w-full sm:w-64"
+            emptyLabel="Pilih batch..."
+            value={batchId}
+            options={batches.map((batch) => ({
+              value: batch.id,
+              label:
+                batch.status === 'closed'
+                  ? `${batch.name} · Ditutup`
+                  : `${batch.name} · Aktif`,
+            }))}
+            onChange={setBatchId}
+          />
+        </div>
+      </header>
 
       {showSkeleton && <DashboardSkeleton />}
 
@@ -84,20 +90,60 @@ const DashboardPage = () => {
       {!showSkeleton && data?.batch && (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard title="Total order" value={data.totalOrders} tone="blue" icon={Package} />
-            <StatCard title="Masuk hari ini" value={data.todayCount} hint="Sejak 00.00 WIB" tone="mint" icon={CalendarCheck} />
-            <StatCard title="Hold" value={data.heldCount} hint="Menunggu pelunasan" tone="amber" icon={PauseCircle} />
-            <StatCard title="Issue" value={data.byStatus.ISSUE} hint="Perlu ditangani" tone="pink" icon={AlertTriangle} />
+            <StatCard 
+            title="Active Order" 
+            value={data.totalOrders} 
+            hint="in total" 
+            icon={Package} 
+            previous={cmp?.totalOrders.previous ?? null}
+            compareLabel={`vs. previous batch (${cmp?.totalOrders.elapsedDays} days in)`}
+            />
+            <StatCard 
+            title="Orders Today"
+            value={data.todayCount} 
+            hint="Since 12 AM" 
+            tone="mint" 
+            icon={CalendarCheck}
+            previous={cmp?.today?.previous ?? null}
+            compareLabel="vs. yesterday, same time" 
+            />
+            <StatCard 
+            title="Hold" 
+            value={data.heldCount} 
+            hint="Awaiting Payment" 
+            tone="amber" 
+            icon={PauseCircle} 
+            compareLabel='Requires Follow Up'
+            />
+            <StatCard 
+            title="Issue" 
+            value={data.byStatus.ISSUE} 
+            hint="Needs attention" 
+            tone="pink" 
+            icon={AlertTriangle} 
+            compareLabel='Action Required'
+            />
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
-            <div className="flex flex-col gap-2">
-            <StatusPipelineCard byStatus={data.byStatus} />
-            {/* <PaymentSummaryCard byPayment={data.byPayment} /> */}
-            <TodayOrdersCard orders={data.todayOrders} total={data.todayCount} />
+          <div className="grid items-start gap-4 lg:grid-cols-3">
+            <div className="lg:col-span-2 flex flex-col gap-3">
+              <StatusPipelineCard byStatus={data.byStatus} />
+              <TodayOrderTable orders={data.todayOrders} total={data.todayCount} />
+
             </div>
-            <PaymentChart byPayment={data.byPayment} />
+            <div className="flex flex-col gap-3">
+              {data.batch && (
+              <NeedsAttentionCard
+                batchId={data.batch.id}
+                data={data.needsAttention}
+              />
+              )}
+              <PaymentChart byPayment={data.byPayment} />
+
+            </div>
           </div>
+
+          
         </>
       )}
     </div>

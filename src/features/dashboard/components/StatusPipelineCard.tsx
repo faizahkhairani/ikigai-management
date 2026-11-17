@@ -6,36 +6,41 @@ type Props = {
   byStatus: Record<OrderStatus, number>;
 };
 
+// urut sesuai ORDER_PIPELINE: Waiting → Completed
 const SEGMENT_COLORS = [
-  'bg-pink-100',
-  'bg-pink-200',
-  'bg-pink-300',
-  'bg-pink-400',
-  'bg-pink-500',
-  'bg-pink-600',
-  'bg-pink-700',
-  'bg-pink-800',
-  'bg-pink-900',
+  '#60A5FA', // Waiting
+  '#4F83E8', // Arrived Thailand
+  '#6366F1', // Arrived Indonesia
+  '#818CF8', // Sorting
+  '#A78BFA', // Packing Queue
+  '#C084FC', // Packing
+  '#E879C0', // Ready to Ship
+  '#EC6B9A', // Shipped
+  '#DB4B83', // Completed
 ];
 
 const StatusPipelineCard = ({ byStatus }: Props) => {
   const total = ORDER_PIPELINE.reduce((sum, s) => sum + byStatus[s], 0);
+  const colorOf = (i: number) => SEGMENT_COLORS[i % SEGMENT_COLORS.length];
 
   return (
     <Card className="rounded-2xl bg-white">
       <CardHeader>
-        <CardTitle className="text-base font-semibold text-slate-900">Order per status</CardTitle>
-        <p className="text-xs text-slate-500">Dari order masuk sampai terkirim.</p>
+        <CardTitle className="font-bold text-lg">Order per status</CardTitle>
+        <p className="text-sm text-slate-700">Dari order masuk sampai terkirim.</p>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-5">
         <div className="flex h-3 w-full gap-0.5 overflow-hidden rounded-full bg-slate-100">
           {ORDER_PIPELINE.map((status, i) =>
-            byStatus[status] > 0 ? (
+            byStatus[status] > 0 && total > 0 ? (
               <div
                 key={status}
-                className={`${SEGMENT_COLORS[i % SEGMENT_COLORS.length]} transition-all duration-500`}
-                style={{ width: `${(byStatus[status] / total) * 100}%` }}
+                className="transition-all duration-500"
+                style={{
+                  width: `${(byStatus[status] / total) * 100}%`,
+                  backgroundColor: colorOf(i),
+                }}
               />
             ) : null
           )}
@@ -44,7 +49,10 @@ const StatusPipelineCard = ({ byStatus }: Props) => {
         <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
           {ORDER_PIPELINE.map((status, i) => (
             <li key={status} className="flex items-center gap-2">
-              <span className={`size-2.5 rounded-full ${SEGMENT_COLORS[i % SEGMENT_COLORS.length]}`} />
+              <span
+                className="size-2.5 rounded-full ring-1 ring-inset ring-black/5"
+                style={{ backgroundColor: colorOf(i) }}
+              />
               <span className="flex-1 truncate text-slate-600">{order_status_label[status]}</span>
               <span className="font-semibold text-slate-900 tabular-nums">{byStatus[status]}</span>
             </li>

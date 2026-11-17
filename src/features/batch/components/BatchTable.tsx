@@ -34,10 +34,13 @@ const BatchTable = ({
   reopeningId,
   onReopen
 }: Props) => (
-  <div className="overflow-x-auto rounded-lg border bg-white">
+  <div className="overflow-x-auto rounded-lg bg-white">
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead className="w-14 pl-5 text-sm font-medium text-slate-900">
+            No
+          </TableHead>
           <TableHead className="h-11 pl-5 text-sm font-medium text-slate-900">
             Nama
           </TableHead>
@@ -64,6 +67,9 @@ const BatchTable = ({
           Array.from({ length: skeleton_rows }).map((_, index) => (
             <TableRow key={index}>
               <TableCell className="py-4 pl-5">
+                <Skeleton className="h-4 w-5" />
+              </TableCell>
+              <TableCell className="py-4 pl-5">
                 <Skeleton className="h-4 w-32" />
               </TableCell>
               <TableCell>
@@ -87,7 +93,7 @@ const BatchTable = ({
         {!isLoading && batches.length === 0 && (
           <TableRow>
             <TableCell
-              colSpan={6}
+              colSpan={7}
               className="h-28 text-center text-sm text-muted-foreground"
             >
               Belum ada batch.
@@ -96,7 +102,7 @@ const BatchTable = ({
         )}
 
         {!isLoading &&
-          batches.map((batch) => {
+          batches.map((batch, index) => {
             const isActive = batch.status === 'active'
 
             return (
@@ -104,6 +110,9 @@ const BatchTable = ({
                 key={batch.id}
                 className="transition-colors hover:bg-slate-50/70"
               >
+                <TableCell className="py-4 pl-5 text-slate-800">
+                  {index + 1}
+                </TableCell>
                 <TableCell className="py-4 pl-5 font-medium text-slate-700">
                   {batch.name}
                 </TableCell>

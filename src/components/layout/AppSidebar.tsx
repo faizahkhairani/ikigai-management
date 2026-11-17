@@ -49,11 +49,11 @@ export function AppSidebar() {
               render={<Link to="/" />}
               variant='ghost'
             >
-              <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-pastel-pink-text">
+              <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-pastel-blue-dark">
                 <ShoppingBag className='text-white' />
               </span>
               <div className="grid min-w-0 flex-1 text-start leading-tight group-data-[collapsible=icon]:hidden">
-                <span className="truncate text-base font-bold tracking-tight">ikigai Carry</span>
+                <span className="truncate text-lg font-bold tracking-tight">Ikigai Carry</span>
                 <span className="truncate text-xs text-muted-foreground">Order Management</span>
               </div>
             </SidebarMenuButton>

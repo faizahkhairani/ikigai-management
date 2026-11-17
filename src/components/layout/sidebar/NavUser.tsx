@@ -52,11 +52,10 @@ export function NavUser() {
             <DropdownMenuTrigger>
               <SidebarMenuButton
                 size='lg'
-                variant='ghost'
+                variant='outline'
               >
-                <Avatar className='h-8 w-8 rounded-lg'>
-                  {/* <AvatarImage src={user.avatar} alt={profile?.name} /> */}
-                  <AvatarFallback className="text-black rounded-full">{getInitials(profile?.name)}</AvatarFallback>
+                <Avatar className='h-8 w-8'>
+                  <AvatarFallback className="rounded-full bg-pastel-blue text-black">{getInitials(profile?.name)}</AvatarFallback>
                 </Avatar>
                 <div className='grid flex-1 text-start text-sm leading-tight'>
                   <span className='truncate text-xs font-semibold text-black'>{profile?.name}</span>

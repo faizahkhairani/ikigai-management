@@ -10,14 +10,14 @@ export default function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <Header>
+        <Header fixed>
           <p className="shrink-0 text-black">Dashboard</p>
           <div className="ml-auto flex items-center gap-4">
             <Search />
             <UserProfile />
           </div>
         </Header>
-        <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-6 mt-8">
+        <main className="mx-auto w-full max-w-8xl flex-1 px-7 pb-6 mt-8">
           <Outlet />
         </main>
       </SidebarInset>

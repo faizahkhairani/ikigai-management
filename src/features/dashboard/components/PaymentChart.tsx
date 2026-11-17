@@ -22,15 +22,15 @@ const chartConfig = {
   count: { label: 'Order' },
   unpaid: {
     label: payment_status_label.unpaid,
-    color: '#f472b6',
+    color: '#F59E0B',
   },
   dp: {
     label: payment_status_label.dp,
-    color: '#f9a8d4',
+    color: '#EC4899',
   },
   lunas: {
     label: payment_status_label.lunas,
-    color: '#db2777',
+    color: '#3B82F6',
   },
 } satisfies ChartConfig;
 

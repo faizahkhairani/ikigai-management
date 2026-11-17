@@ -24,7 +24,7 @@ const TodayOrdersCard = ({ orders, total }: Props) => (
   <Card className="gap-0 overflow-hidden rounded-xl border-slate-200 py-0">
     <CardHeader className="flex flex-row items-center justify-between gap-3 px-4 py-4 sm:px-5">
       <div className="flex flex-col gap-1">
-        <CardTitle className="text-base font-semibold tracking-tight text-slate-900">
+        <CardTitle className="text-lg font-bold">
           Recent Orders
         </CardTitle>
         <p className="text-xs text-muted-foreground">

@@ -1,5 +1,19 @@
 import type { OrderStatus, PaymentStatus } from '@/features/order/types';
 
+type Comparison = { current: number; previous: number | null };
+
+type AttentionItem = {
+  id: string;
+  resi: string;
+  customerName: string;
+  status: string;
+  paymentStatus: 'unpaid' | 'dp' | 'lunas';
+  reason: 'ISSUE' | 'HOLD';
+  since: string;
+};
+
+ export type NeedsAttention = { total: number; items: AttentionItem[] };
+
 export type DashboardActivity = {
   id: string;
   orderId: string;
@@ -30,5 +44,10 @@ export type DashboardSummary = {
   byPayment: Record<PaymentStatus, number>;
   recentActivity: DashboardActivity[];
   todayOrders: DashboardTodayOrder[];
+  comparison: {
+    totalOrders: Comparison & { elapsedDays: number };
+    today: Comparison | null;
+  } | null;
+  needsAttention: NeedsAttention;
 };
 

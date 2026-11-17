@@ -9,6 +9,7 @@
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-comic: 'Comic Neue', cursive;
 
   /* Shadcn semantic colors */
   --color-background: var(--background);
@@ -94,7 +95,8 @@
 :root {
   --radius: 0.625rem;
 
-  --background: #ffffff;
+  /* --background: #ffffff; */
+  --background: #F8FAFC;
   --foreground: #334155;
 
   --card: #ffffff;
@@ -147,16 +149,18 @@
   --sidebar-border: #e2e8f0;
   --sidebar-ring: #93c5fd; */
 
-  --sidebar: oklch(97.1% 0.014 343.198);
+  --sidebar: #ffffff;
   --sidebar-foreground: #334155;
 
-  --sidebar-primary: var(--color-pastel-pink-dark);
+  --sidebar-primary: var(--color-pastel-blue-dark);
   --sidebar-primary-foreground: #ffffff;
   
-    /* warna sidebar */
-  --sidebar-accent: var(--color-pastel-pink-text);
-  --sidebar-accent-foreground: #ffffff;
-
+  /* warna sidebar */
+  /* --sidebar-accent: var(--color-pastel-blue-text);
+  --sidebar-accent-foreground: #ffffff; */
+  --sidebar-accent: var(--color-pastel-blue-soft);
+  --sidebar-accent-foreground: var(--color-pastel-blue-text);
+  
   --sidebar-border: #fce7f1;
   --sidebar-ring: var(--color-pastel-pink-dark);
 }

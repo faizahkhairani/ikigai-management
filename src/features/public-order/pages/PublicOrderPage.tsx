@@ -30,7 +30,7 @@ const PublicOrderPage = () => {
       )}
 
       {availability && !availability.isOpen && (
-        <div className="rounded-md border p-4 text-sm">
+        <div className="rounded-md border p-4 text-sm bg-pastel-blue">
           Batch titipan sedang ditutup. Pantau info batch berikutnya lewat WhatsApp kami.
         </div>
       )}

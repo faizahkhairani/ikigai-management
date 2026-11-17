@@ -21,6 +21,7 @@ import { publicOrderSchema, ORDER_LIMITS, type PublicOrderFormValues } from '../
 import type { SubmitPublicOrderPayload, SubmitPublicOrderResult } from '../types';
 import ImagePicker from './ImagePicker';
 import {inputCls} from '@/lib/styles';
+import { compressImage } from '@/lib/compressImage';
 
 const emptyItem = { name: '', qty: '1', note: '' };
 
@@ -64,14 +65,15 @@ const PublicOrderForm = ({ onSubmit, onSuccess }: Props) => {
     defaultValues,
     validators: { onSubmit: publicOrderSchema },
     onSubmit: async ({ value }) => {
-      if (!value.resiImage) return; // sudah dijaga schema, ini buat TypeScript
+      if (!value.resiImage) return; 
+      const image = await compressImage(value.resiImage).catch(() => value.resiImage!);
 
       try {
         const result = await onSubmit({
           name: value.name.trim(),
           phone: value.phone.trim(),
           resiThailand: value.resiThailand.trim(),
-          image: value.resiImage,
+          image,
           items: value.items.map((item) => ({
             name: item.name.trim(),
             qty: Number(item.qty),
@@ -102,7 +104,7 @@ return (
   {/* Intro */}
   <aside className="mb-8 flex items-start gap-3 rounded-2xl border bg-pastel-blue p-4">
     <Info className="mt-0.5 size-4 shrink-0 text-pink-500" />
-    <p className="text-xs leading-5 text-slate-600">
+    <p className="text-xs leading-5 text-slate-800">
       <span className="font-semibold text-slate-800">Tips tracking: </span>
       Setelah order berhasil dikirim, kamu akan menerima tracking token untuk
       melacak pesanan. Jika token hilang, kamu tetap bisa menggunakan nomor resi.

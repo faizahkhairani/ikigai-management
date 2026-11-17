@@ -29,10 +29,11 @@ const CustomerTable = ({
   onEdit,
   onDelete
 }: Props) => (
-  <div className="w-full rounded-lg border overflow-x-auto">
+  <div className="w-full rounded-lg overflow-x-auto bg-white">
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead className="w-14 pl-5 text-sm font-medium text-slate-900">No</TableHead>
           <TableHead className="h-11 pl-5 text-sm font-medium text-slate-900">Nama</TableHead>
           <TableHead className="text-sm font-medium text-slate-900">No WA</TableHead>
           <TableHead className="text-sm font-medium text-slate-900">Jumlah Order</TableHead>
@@ -45,6 +46,9 @@ const CustomerTable = ({
         {isLoading &&
           Array.from({ length: skeletonRows }).map((_, index) => (
             <TableRow key={index}>
+              <TableCell className="py-4 pl-5">
+                <Skeleton className="h-4 w-5" />
+              </TableCell>
               <TableCell className="py-4 pl-5">
                 <Skeleton className="h-4 w-36" />
               </TableCell>
@@ -66,7 +70,7 @@ const CustomerTable = ({
         {!isLoading && customers.length === 0 && (
           <TableRow>
             <TableCell
-              colSpan={5}
+              colSpan={6}
               className="h-24 text-center text-muted-foreground"
             >
               Tidak ada customer yang cocok.
@@ -75,12 +79,15 @@ const CustomerTable = ({
         )}
 
         {!isLoading &&
-          customers.map((customer) => (
+          customers.map((customer, index) => (
             <TableRow
               key={customer.id}
               onClick={() => onRowClick(customer.id)}
               className="cursor-pointer transition-colors hover:bg-slate-50/70"
             >
+              <TableCell className="py-4 pl-5 text-slate-800">
+                {index + 1}
+              </TableCell>
               <TableCell className="py-4 pl-5 font-medium text-slate-700">
                 {customer.name}
               </TableCell>
