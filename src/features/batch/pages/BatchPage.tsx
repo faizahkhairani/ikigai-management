@@ -1,6 +1,6 @@
 import BatchTable from "../components/BatchTable"
 import { useBatches } from "../hooks/useBatch";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/common/PageHeader";
 import OpenBatchDialog from '../components/OpenBatchDialog';
 import { toast } from "@/components/ui/toast";
 

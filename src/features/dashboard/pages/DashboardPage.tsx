@@ -9,7 +9,6 @@ import { useDashboard } from '../hooks/useDashboard';
 import { useAuthStore } from '@/features/auth/store'
 import { Package, CalendarCheck, PauseCircle, AlertTriangle, Layers } from 'lucide-react';
 import { cn } from "cn"
-import TodayOrdersCard from '../components/TodayOrdersCard';
 import { NeedsAttentionCard } from '../components/NeedsAttentionCard';
 import TodayOrderTable from '../components/TodaysOrderTable';
 

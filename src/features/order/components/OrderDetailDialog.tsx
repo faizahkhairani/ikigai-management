@@ -18,7 +18,6 @@ import OrderDetailSkeleton from './OrderDetailSkeleton';
 import OrderStatusStepper from './OrderStatusStepper';
 import ProofUploader from './ProofUploader';
 import OrderActivityLog from './OrderActivityLog';
-// import StatusCorrection from './StatusCorrection';
 import ProofImageGallery from './ProofImageGallery';
 import ResiImageSection from './ResiImageSection';
 

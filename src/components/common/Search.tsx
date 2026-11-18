@@ -1,6 +1,5 @@
 import { SearchIcon } from 'lucide-react'
 import { cn } from 'cn'
-// import { useSearch } from '@/context/search-provider'
 import {Button} from '@/components/ui/button'
 
 export function Search({
@@ -8,7 +7,6 @@ export function Search({
   placeholder = 'Search',
   ...props
 }: React.ComponentProps<'button'> & { placeholder?: string }) {
-//   const { setOpen } = useSearch()
   return (
     <Button
       {...props}
@@ -18,7 +16,6 @@ export function Search({
         className
       )}
       aria-keyshortcuts='Meta+K Control+K'
-    //   onClick={() => setOpen(true)}
     >
       <SearchIcon
         aria-hidden='true'

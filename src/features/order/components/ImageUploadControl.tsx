@@ -9,10 +9,8 @@ const MAX_SIZE_MB = 2;
 type Props = {
   buttonLabel: string;
   confirmLabel?: string;
-  highlight?: boolean; // true = tombol utama, false = tombol outline
+  highlight?: boolean; 
   hint?: string;
-  // Lempar error kalau gagal: file tetap terpilih biar bisa dicoba lagi.
-  // Toast sukses/gagal ditampilkan oleh pemanggil.
   onUpload: (file: File) => Promise<void>;
 };
 

@@ -20,7 +20,6 @@ export type DashboardActivity = {
   resi: string;
   fromStatus: OrderStatus | null; // kosong = order dibuat
   toStatus: OrderStatus;
-  // isCorrection: boolean;
   changedAt: string;
   changedBy: string | null; // kosong = customer (form publik)
 };

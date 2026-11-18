@@ -1,4 +1,3 @@
-// hooks/useCustomers.ts
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { customerService } from '../services/CustomerService';
 import type { Customer } from '../types';

@@ -23,13 +23,6 @@ type Props = {
   onOpenChange: (open: boolean) => void;
 };
 
-// const InfoRow = ({ label, value }: { label: string; value: string }) => (
-//   <div className="flex justify-between gap-4 text-sm">
-//     <span className="text-muted-foreground">{label}</span>
-//     <span className="text-right font-medium">{value}</span>
-//   </div>
-// );
-
 const CustomerDetailDialog = ({ customerId, open, onOpenChange }: Props) => {
   const { data: customer, isLoading } = useCustomerDetail(customerId);
 

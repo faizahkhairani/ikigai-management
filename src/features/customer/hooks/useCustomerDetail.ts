@@ -1,4 +1,3 @@
-// hooks/useCustomerDetail.ts
 import { useQuery } from '@tanstack/react-query';
 import { customerService } from '../services/CustomerService';
 

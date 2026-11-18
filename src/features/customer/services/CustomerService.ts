@@ -15,7 +15,6 @@ export const customerService = {
     return data.customer;
   },
 
-  // tambahkan UpdateCustomerPayload ke import type
   update: async (id: string, payload: UpdateCustomerPayload): Promise<void> => {
     await api.patch(`/admin/customers/${id}`, payload);
   },

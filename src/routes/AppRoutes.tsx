@@ -11,7 +11,7 @@ const DashboardLayout = lazy(() => import('@/layouts/DashboardLayout'));
 const PublicLayout = lazy(() => import('@/layouts/PublicLayout'));
 
 // Auth
-const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage1'));
+const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 
 // Admin
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));

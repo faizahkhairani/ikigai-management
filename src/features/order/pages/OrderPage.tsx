@@ -7,7 +7,7 @@ import OrderTable from '../components/OrderTable';
 import { useBulkOrderActions } from '../hooks/useBulkOrderActions';
 import { useOrders } from '../hooks/useOrders';
 import type { OrderFilters, OrderStatus, PaymentStatus } from '../types';
-import PageHeader from '@/components/PageHeader';
+import PageHeader from '@/components/common/PageHeader';
 import { notifyBulkResult } from '../utils/notifyBulkResult';
 import { toast } from '@/components/ui/toast';
 import { Button } from '@/components/ui/button';
