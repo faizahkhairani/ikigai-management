@@ -20,6 +20,7 @@ const BatchPage = lazy(() => import('@/features/batch/pages/BatchPage'));
 const CustomerPage = lazy(() => import('@/features/customer/pages/CustomerPage'));
 
 // Public (customer)
+const PublicHomePage = lazy(() => import('@/features/public-order/pages/PublicHomePage'))
 const PublicOrderPage = lazy(() => import('@/features/public-order/pages/PublicOrderPage'));
 const TrackSearchPage = lazy(() => import('@/features/public-order/pages/TrackSearchPage'));
 const TrackDetailPage = lazy(() => import('@/features/public-order/pages/TrackDetailPage'));
@@ -62,7 +63,7 @@ const router = createBrowserRouter([
           <ProtectedRoute>{withSuspense(<DashboardLayout />, <FullScreenLoader />)}</ProtectedRoute>
         ),
         children: [
-          { path: '/', element: withSuspense(<DashboardPage />) },
+          { path: '/dashboard', element: withSuspense(<DashboardPage />) },
           { path: '/orders', element: withSuspense(<OrderPage />) },
           { path: '/batch', element: withSuspense(<BatchPage />) },
           { path: '/customers', element: withSuspense(<CustomerPage />) },
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
     // Publik: tanpa AuthProvider, tidak ada request ke /admin/me
     element: withSuspense(<PublicLayout />, <FullScreenLoader />),
     children: [
+      { index: true, element: withSuspense(<PublicHomePage />) },
       { path: '/order-form', element: withSuspense(<PublicOrderPage />) },
       { path: '/track', element: withSuspense(<TrackSearchPage />) },
       { path: '/track/:token', element: withSuspense(<TrackDetailPage />) },

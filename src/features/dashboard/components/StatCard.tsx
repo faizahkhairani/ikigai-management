@@ -9,12 +9,12 @@ const TONES = {
     label: 'text-pastel-blue-text',
   },
   mint: {
-    chip: 'bg-emerald-100 text-pastel-mint-text',
-    label: 'text-pastel-mint-text',
+    chip: 'bg-emerald-100 text-emerald-500',
+    label: 'text-emerald-500',
   },
   amber: {
-    chip: 'bg-amber-100 text-pastel-amber-text',
-    label: 'text-pastel-amber-text',
+    chip: 'bg-amber-100 text-amber-500',
+    label: 'text-amber-500',
   },
   pink: {
     chip: 'bg-red-100 text-pastel-pink-text',

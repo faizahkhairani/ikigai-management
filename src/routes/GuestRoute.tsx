@@ -5,7 +5,7 @@ export function GuestRoute({ children }: { children: React.ReactNode }) {
   const { profile, isLoading } = useAuthStore();
 
   if (isLoading) return <div>Loading...</div>;
-  if (profile) return <Navigate to="/" replace />;
+  if (profile) return <Navigate to="/dashboard" replace />;
 
   return <>{children}</>;
 }

@@ -18,7 +18,7 @@ const PublicOrderPage = () => {
     <div className="flex flex-col gap-6">
 
       {isLoading && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 bg-pink-50/70">
           <Skeleton className="h-9 w-full" />
           <Skeleton className="h-9 w-full" />
           <Skeleton className="h-24 w-full" />

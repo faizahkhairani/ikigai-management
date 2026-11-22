@@ -23,7 +23,7 @@ import {
 import { NavUser } from './sidebar/NavUser';
 
 const navItems = [
-  { title: 'Dashboard', url: '/', icon: LayoutDashboard },
+  { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
   { title: 'Orders', url: '/orders', icon: Package },
   { title: 'Batch', url: '/batch', icon: Layers },
   { title: 'Customers', url: '/customers', icon: Users },
@@ -76,7 +76,7 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Other</SidebarGroupLabel>
+          <SidebarGroupLabel>Pages</SidebarGroupLabel>
           <SidebarMenu>
             {otherNavItems.map((item) => (
               <SidebarMenuItem key={item.url}>

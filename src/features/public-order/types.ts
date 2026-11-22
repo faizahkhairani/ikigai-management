@@ -1,4 +1,5 @@
 import type { OrderStatus, PaymentStatus } from '@/features/order/types'; 
+import type { Pagination } from '@/types/types';
 
 export type TrackedOrder = {
   trackingToken: string;
@@ -19,10 +20,17 @@ export type TrackedOrderSummary = {
   resiThailand: string;
   status: OrderStatus;
   createdAt: string;
+  batch: { id: string; name: string };
+  customer: { id: string, name: string };
   _count: { items: number };
 };
 
-export type TrackSearchQuery = { resi: string };
+export type TrackSearchQuery = { resi: string } | { phone: string };
+
+export type TrackSearchResult = {
+  orders: TrackedOrderSummary[];
+  pagination: Pagination;
+};
 
 export type OrderAvailability = {
   isOpen: boolean;

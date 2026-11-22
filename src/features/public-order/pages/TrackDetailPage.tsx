@@ -10,7 +10,7 @@ const TrackDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="rounded-lg border bg-background p-5">
+      <div className="rounded-lg border bg-pink-50/70 p-5">
         <OrderDetailSkeleton />
       </div>
     );

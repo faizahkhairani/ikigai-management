@@ -4,12 +4,23 @@ import TrackSearchResults from '../components/TrackSearchResults';
 import { useTrackSearch } from '../hooks/useTrackSearch';
 import type { TrackSearchQuery } from '../types';
 
+const PAGE_SIZE = 10;
+
 const TrackSearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = Number(searchParams.get('page'));
+  const page = Number.isInteger(pageParam) && pageParam > 0 ? pageParam : 1;
   const resi = searchParams.get('resi');
+  const phone = searchParams.get('phone');
 
-  const query: TrackSearchQuery | null = resi ? { resi } : null;
-  const { data: orders = [], isLoading, error } = useTrackSearch(query);
+  const query: TrackSearchQuery | null = resi ? { resi } : phone ? { phone } : null;
+  const {
+    orders,
+    pagination,
+    isLoading,
+    isFetching,
+    error,
+  } = useTrackSearch(query, page, PAGE_SIZE);
 
   return (
   <div className="mx-auto flex w-full max-w-2xl flex-col gap-6">
@@ -27,7 +38,8 @@ const TrackSearchPage = () => {
 
     <div className="rounded-3xl bg-white p-4 shadow-[0_1px_2px_rgba(28,25,23,0.04),0_12px_32px_-12px_rgba(28,25,23,0.08)] ring-1 ring-stone-200/70 sm:p-6">
       <TrackSearchForm
-        initialValue={resi ?? ""}
+        initialMode={phone && !resi ? 'phone' : 'resi'}
+        initialValue={resi ?? phone ?? ''}
         onSearch={(next) => setSearchParams(next)}
       />
     </div>
@@ -40,7 +52,17 @@ const TrackSearchPage = () => {
     )}
 
     {query && !error && (
-      <TrackSearchResults orders={orders} isLoading={isLoading} />
+      <TrackSearchResults
+        orders={orders}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        pagination={pagination}
+        onPageChange={(nextPage) => {
+          const nextParams = new URLSearchParams(searchParams);
+          nextParams.set('page', String(nextPage));
+          setSearchParams(nextParams);
+        }}
+      />
     )}
   </div>
 );
