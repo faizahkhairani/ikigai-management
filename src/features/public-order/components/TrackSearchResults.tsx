@@ -49,7 +49,7 @@ const TrackSearchResults = ({
         <div className="space-y-1">
           <p className="font-semibold text-stone-800">Order tidak ditemukan</p>
           <p className="text-sm text-stone-500">
-            Cek lagi nomor resi atau nomor HP yang kamu masukkan.
+            Cek lagi nomor resi, nomor WA, atau username yang kamu masukkan.
           </p>
         </div>
       </div>
@@ -68,9 +68,22 @@ const TrackSearchResults = ({
               <div className="flex items-start gap-3">
 
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold text-stone-800">
-                    {order.customer?.name ?? '-'}
-                  </p>
+                  {order.customer.identifier && (
+                    <p className="truncate font-semibold text-stone-800">
+                      {order.customer.identifier}
+                    </p>
+                  )}
+                  {order.customer.name && (
+                    <p
+                      className={
+                        order.customer.identifier
+                          ? 'truncate text-sm text-stone-600'
+                          : 'truncate font-semibold text-stone-800'
+                      }
+                    >
+                      {order.customer.name}
+                    </p>
+                  )}
                   <p className="break-all font-mono text-xs text-stone-500">
                     {order.resiThailand}
                   </p>

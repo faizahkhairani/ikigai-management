@@ -13,8 +13,7 @@ export const publicOrderService = {
 
   submit: async (payload: SubmitPublicOrderPayload): Promise<SubmitPublicOrderResult> => {
     const formData = new FormData();
-    formData.append('name', payload.name);
-    formData.append('phone', payload.phone);
+    formData.append('identifier', payload.identifier);
     formData.append('resiThailand', payload.resiThailand);
     formData.append('items', JSON.stringify(payload.items)); // array dikirim sebagai JSON string
     formData.append('image', payload.image);

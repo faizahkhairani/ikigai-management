@@ -13,12 +13,14 @@ import { toast } from '@/components/ui/toast';
 import type { Batch } from '@/features/batch/type';
 import { createOrderSchema, type CreateOrderFormValues, ORDER_LIMITS} from '../schemas';
 import type { CreateManualOrderPayload } from '../types';
+import { IDENTIFIER_LABEL, normalizeIdentifier } from '@/lib/customer';
 import OptionSelect from './OptionSelect';
 
 const emptyItem = { name: '', qty: '1', note: '' };
 
 const defaultValues: CreateOrderFormValues = {
   name: '',
+  identifier: '',
   phone: '',
   resiThailand: '',
   batchId: '',
@@ -39,8 +41,9 @@ const CreateOrderForm = ({ batches, onSubmit, onSuccess, onFailure }: Props) => 
     onSubmit: async ({ value }) => {
       try {
         await onSubmit({
-          name: value.name.trim(),
-          phone: value.phone.trim(),
+          name: value.name.trim() || undefined,
+          identifier: normalizeIdentifier(value.identifier) || undefined,
+          phone: value.phone.trim() || undefined,
           resiThailand: value.resiThailand.trim(),
           batchId: value.batchId || undefined, // kosong -> backend pakai batch aktif
           items: value.items.map((item) => ({
@@ -76,7 +79,7 @@ const CreateOrderForm = ({ batches, onSubmit, onSuccess, onFailure }: Props) => 
               const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
               return (
                 <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Nama customer</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Nama lengkap (opsional)</FieldLabel>
                   <Input
                     id={field.name}
                     name={field.name}
@@ -93,7 +96,12 @@ const CreateOrderForm = ({ batches, onSubmit, onSuccess, onFailure }: Props) => 
             }}
           </form.Field>
 
-          <form.Field name="phone">
+          {/* Error "isi salah satu" menempel di identifier. Validasi ulang saat no WA diubah, supaya
+              error-nya hilang dan tidak memblokir submit berikutnya. */}
+          <form.Field
+            name="phone"
+            listeners={{ onChange: () => void form.validateField('identifier', 'change') }}
+          >
             {(field) => {
               const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
               return (
@@ -114,6 +122,27 @@ const CreateOrderForm = ({ batches, onSubmit, onSuccess, onFailure }: Props) => 
             }}
           </form.Field>
         </div>
+
+        <form.Field name="identifier">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>{IDENTIFIER_LABEL}</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  placeholder="adhya0160"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            );
+          }}
+        </form.Field>
 
         <form.Field name="resiThailand">
           {(field) => {

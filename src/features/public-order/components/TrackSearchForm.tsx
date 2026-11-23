@@ -3,18 +3,29 @@ import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { IDENTIFIER_LABEL, normalizeIdentifier } from '@/lib/customer';
 import type { TrackSearchQuery } from '../types';
 import { cn } from "cn";
 
-type Mode = 'resi' | 'phone';
+export type TrackSearchMode = 'resi' | 'phone' | 'identifier';
 
-const MODE_CONFIG: Record<Mode, { label: string; placeholder: string; inputMode: 'text' | 'tel' }> = {
-  resi: { label: 'No resi', placeholder: 'Nomor resi paketmu', inputMode: 'text' },
-  phone: { label: 'No WhatsApp', placeholder: '08123456789', inputMode: 'tel' },
+// tab = teks pendek di tombol pilihan, label = teks di atas input
+const MODE_CONFIG: Record<
+  TrackSearchMode,
+  { tab: string; label: string; placeholder: string; inputMode: 'text' | 'tel' }
+> = {
+  resi: { tab: 'No resi', label: 'No resi', placeholder: 'Nomor resi paketmu', inputMode: 'text' },
+  phone: { tab: 'No WA', label: 'No WhatsApp', placeholder: '08123456789', inputMode: 'tel' },
+  identifier: {
+    tab: 'Username',
+    label: IDENTIFIER_LABEL,
+    placeholder: 'Contoh: adhya0160',
+    inputMode: 'text',
+  },
 };
 
 type Props = {
-  initialMode: Mode;
+  initialMode: TrackSearchMode;
   initialValue: string;
   onSearch: (query: TrackSearchQuery) => void;
 };
@@ -28,7 +39,7 @@ const TrackSearchForm = ({ initialMode, initialValue, onSearch }: Props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const trimmed = value.trim();
+    const trimmed = mode === 'identifier' ? normalizeIdentifier(value) : value.trim();
     if (!trimmed) {
       setError(`${config.label} wajib diisi`);
       return;
@@ -39,8 +50,8 @@ const TrackSearchForm = ({ initialMode, initialValue, onSearch }: Props) => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-      <div className="grid grid-cols-2 gap-1 rounded-full bg-pastel-pink p-1">
-        {(Object.keys(MODE_CONFIG) as Mode[]).map((key) => (
+      <div className="grid grid-cols-3 gap-1 rounded-full bg-pastel-pink p-1">
+        {(Object.keys(MODE_CONFIG) as TrackSearchMode[]).map((key) => (
           <button
             key={key}
             type="button"
@@ -55,7 +66,7 @@ const TrackSearchForm = ({ initialMode, initialValue, onSearch }: Props) => {
                 : "text-stone-500 hover:text-stone-800"
             )}
           >
-            {MODE_CONFIG[key].label}
+            {MODE_CONFIG[key].tab}
           </button>
         ))}
       </div>
@@ -68,6 +79,7 @@ const TrackSearchForm = ({ initialMode, initialValue, onSearch }: Props) => {
           <Input
             id="track-query"
             inputMode={config.inputMode}
+            autoCapitalize="none"
             placeholder={config.placeholder}
             value={value}
             onChange={(e) => setValue(e.target.value)}

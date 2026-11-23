@@ -21,13 +21,13 @@ import { publicOrderSchema, ORDER_LIMITS, type PublicOrderFormValues } from '../
 import type { SubmitPublicOrderPayload, SubmitPublicOrderResult } from '../types';
 import ImagePicker from './ImagePicker';
 import {inputCls} from '@/lib/styles';
+import { IDENTIFIER_LABEL, normalizeIdentifier } from '@/lib/customer';
 import { compressImage } from '@/lib/compressImage';
 
 const emptyItem = { name: '', qty: '1', note: '' };
 
 const defaultValues: PublicOrderFormValues = {
-  name: '',
-  phone: '',
+  identifier: '',
   resiThailand: '',
   resiImage: null,
   items: [{ ...emptyItem }],
@@ -70,8 +70,7 @@ const PublicOrderForm = ({ onSubmit, onSuccess }: Props) => {
 
       try {
         const result = await onSubmit({
-          name: value.name.trim(),
-          phone: value.phone.trim(),
+          identifier: normalizeIdentifier(value.identifier),
           resiThailand: value.resiThailand.trim(),
           image,
           items: value.items.map((item) => ({
@@ -118,59 +117,37 @@ return (
         <SectionHeader
           no="01"
           title="Informasi pemesan"
-          desc="Kontak yang bisa dihubungi untuk pesananmu."
+          desc="Username yang kamu pakai untuk menghubungi kami."
         />
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <form.Field name="name">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Nama lengkap</FieldLabel>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    placeholder="Masukkan nama lengkap"
-                    className={inputCls}
-                    maxLength={ORDER_LIMITS.name}
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          </form.Field>
-
-          <form.Field name="phone">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Nomor WhatsApp</FieldLabel>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    type="tel"
-                    inputMode="tel"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    placeholder="08xxxxxxxxxx"
-                    className={inputCls}
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          </form.Field>
-        </div>
+        <form.Field name="identifier">
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid;
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>{IDENTIFIER_LABEL}</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  placeholder="Contoh: adhya0160"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  className={inputCls}
+                />
+                <FieldDescription>
+                  Dipakai untuk melacak pesananmu di halaman tracking.
+                </FieldDescription>
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            );
+          }}
+        </form.Field>
       </section>
 
       {/* 02 — Informasi paket */}

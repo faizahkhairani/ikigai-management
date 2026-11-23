@@ -1,3 +1,4 @@
+import type { CustomerContact } from '@/lib/customer';
 import type { Pagination } from '@/types/types';
 
 export type OrderStatus =
@@ -33,7 +34,7 @@ export type Order = {
   isHeld: boolean;
   holdReason: string | null;
   createdAt: string;
-  customer: { id: string; name: string; phone: string };
+  customer: CustomerContact & { id: string; phone: string | null };
   batch: { id: string; name: string };
   items: OrderItem[];
   resiImageUrl: string | null;
@@ -56,8 +57,9 @@ export type BulkResult = {
 };
 
 export type CreateManualOrderPayload = {
-  name: string;
-  phone: string;
+  name?: string;
+  identifier?: string;
+  phone?: string;
   resiThailand: string;
   batchId?: string;
   items: { name: string; qty: number; note?: string }[];

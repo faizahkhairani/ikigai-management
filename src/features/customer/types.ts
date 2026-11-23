@@ -3,8 +3,9 @@ import type { Pagination } from '@/types/types';
 
 export type Customer = {
   id: string;
-  name: string;
-  phone: string;
+  name: string | null;
+  identifier: string | null;
+  phone: string | null;
   address: string | null;
   createdAt: string;
   _count: { orders: number };
@@ -28,8 +29,9 @@ export type CustomerOrder = {
 
 export type CustomerDetail = {
   id: string;
-  name: string;
-  phone: string;
+  name: string | null;
+  identifier: string | null;
+  phone: string | null;
   address: string | null;
   createdAt: string;
   orders: CustomerOrder[];
@@ -37,6 +39,7 @@ export type CustomerDetail = {
 
 export type UpdateCustomerPayload = {
   name: string;
+  identifier: string;
   phone: string;
-  address: string;
+  address: string; // string kosong = dikosongkan
 };

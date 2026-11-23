@@ -1,6 +1,7 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { customerLabel } from '@/lib/customer';
 import { formatDate } from '@/lib/format';
 import {
     order_status_label,
@@ -40,12 +41,21 @@ export const orderColumns: ColumnDef<Order>[] = [
   {
     id: 'customer',
     header: 'Customer',
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="font-medium">{row.original.customer.name}</span>
-        <span className="text-xs text-muted-foreground">{row.original.customer.phone}</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const { customer } = row.original;
+      const label = customerLabel(customer);
+      const contacts = [customer.identifier, customer.phone].filter(
+        (value) => value && value !== label
+      );
+      return (
+        <div className="flex flex-col">
+          <span className="font-medium">{label}</span>
+          {contacts.length > 0 && (
+            <span className="text-xs text-muted-foreground">{contacts.join(' · ')}</span>
+          )}
+        </div>
+      );
+    },
   },
   {
     id: 'batch',

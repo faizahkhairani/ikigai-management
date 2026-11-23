@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { customerLabel } from '@/lib/customer';
 import { toast } from '@/components/ui/toast';
 import { useCustomerActions } from '../hooks/useCustomerActions';
 import type { Customer } from '../types';
@@ -40,7 +41,7 @@ const DeleteCustomerDialog = ({ customer, open, onOpenChange }: Props) => {
         <DialogHeader>
           <DialogTitle>Hapus customer?</DialogTitle>
           <DialogDescription>
-            {customer?.name} ({customer?.phone}) akan dihapus permanen dan tidak bisa dikembalikan.
+            {customer && customerLabel(customer)} akan dihapus permanen dan tidak bisa dikembalikan.
           </DialogDescription>
         </DialogHeader>
 

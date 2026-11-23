@@ -6,6 +6,7 @@ import {
   payment_status_variant,
 } from '@/features/order/constants';
 import OrderStatusStepper from '@/features/order/components/OrderStatusStepper';
+import { customerLabel } from '@/lib/customer';
 import { formatDate } from '@/lib/format';
 import type { TrackedOrder } from '../types';
 import { AlertCircle } from 'lucide-react';
@@ -32,12 +33,14 @@ const TrackedOrderCard = ({ order }: Props) => (
           {order.resiThailand}
         </h2>
         
-        <p className="text-xs text-slate-700">
-          Atas nama{" "}
-          <span className="font-medium text-slate-700">
-            {order.customer.name}
-          </span>
-        </p>
+        {(order.customer.name || order.customer.identifier) && (
+          <p className="text-xs text-slate-700">
+            Atas nama{" "}
+            <span className="font-medium text-slate-700">
+              {customerLabel(order.customer)}
+            </span>
+          </p>
+        )}
       </div>
 
       <div className="flex flex-wrap gap-2">

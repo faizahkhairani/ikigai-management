@@ -13,9 +13,10 @@ import {
   payment_status_label,
   payment_status_variant,
 } from '@/features/order/constants';
+import { customerLabel } from '@/lib/customer';
 import { formatDate } from '@/lib/format';
 import { useCustomerDetail } from '../hooks/useCustomerDetail';
-import { MapPin, Phone, ShoppingBag } from "lucide-react";
+import { AtSign, MapPin, Phone, ShoppingBag } from "lucide-react";
 
 type Props = {
   customerId: string | null;
@@ -31,7 +32,7 @@ const CustomerDetailDialog = ({ customerId, open, onOpenChange }: Props) => {
     <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
       <DialogHeader>
         <DialogTitle className="text-lg font-semibold tracking-tight">
-          {customer?.name ?? "Detail Customer"}
+          {customer ? customerLabel(customer) : "Detail Customer"}
         </DialogTitle>
         <DialogDescription>
           Informasi customer dan riwayat pemesanan.
@@ -58,12 +59,12 @@ const CustomerDetailDialog = ({ customerId, open, onOpenChange }: Props) => {
           <section className="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
             <div className="flex items-center gap-3">
               <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-slate-700">
-                {customer.name?.charAt(0).toUpperCase() ?? "?"}
+                {customerLabel(customer).charAt(0).toUpperCase()}
               </div>
 
               <div className="min-w-0">
                 <h3 className="truncate text-sm font-semibold text-slate-900">
-                  {customer.name}
+                  {customerLabel(customer)}
                 </h3>
                 <p className="text-xs text-muted-foreground">
                   Customer sejak {formatDate(customer.createdAt)}
@@ -73,13 +74,25 @@ const CustomerDetailDialog = ({ customerId, open, onOpenChange }: Props) => {
 
             <div className="mt-4 grid gap-4 border-t border-slate-200 pt-4 sm:grid-cols-2">
               <div className="flex items-start gap-2.5">
+                <AtSign className="mt-0.5 size-4 shrink-0 text-slate-400" />
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground">
+                    Identifier
+                  </p>
+                  <p className="break-all text-sm font-medium text-slate-700">
+                    {customer.identifier ?? "-"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
                 <Phone className="mt-0.5 size-4 shrink-0 text-slate-400" />
                 <div className="min-w-0">
                   <p className="text-xs text-muted-foreground">
                     No. WhatsApp
                   </p>
                   <p className="break-all text-sm font-medium text-slate-700">
-                    {customer.phone}
+                    {customer.phone ?? "-"}
                   </p>
                 </div>
               </div>

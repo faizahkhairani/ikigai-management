@@ -9,7 +9,7 @@ export type TrackedOrder = {
   isHeld: boolean;
   holdReason: string | null;
   createdAt: string;
-  customer: { name: string };
+  customer: { name: string | null; identifier: string | null };
   items: { id: string; name: string; qty: number; note: string | null }[];
   statusLogs: { toStatus: OrderStatus; changedAt: string }[];
   proofImages: { id: string; imageUrl: string }[];
@@ -21,11 +21,11 @@ export type TrackedOrderSummary = {
   status: OrderStatus;
   createdAt: string;
   batch: { id: string; name: string };
-  customer: { id: string, name: string };
+  customer: { id: string; name: string | null; identifier: string | null };
   _count: { items: number };
 };
 
-export type TrackSearchQuery = { resi: string } | { phone: string };
+export type TrackSearchQuery = { resi: string } | { phone: string } | { identifier: string };
 
 export type TrackSearchResult = {
   orders: TrackedOrderSummary[];
@@ -38,8 +38,7 @@ export type OrderAvailability = {
 };
 
 export type SubmitPublicOrderPayload = {
-  name: string;
-  phone: string;
+  identifier: string;
   resiThailand: string;
   image: File;
   items: { name: string; qty: number; note?: string }[];

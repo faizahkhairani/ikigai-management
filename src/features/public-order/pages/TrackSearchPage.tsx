@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import TrackSearchForm from '../components/TrackSearchForm';
+import TrackSearchForm, { type TrackSearchMode } from '../components/TrackSearchForm';
 import TrackSearchResults from '../components/TrackSearchResults';
 import { useTrackSearch } from '../hooks/useTrackSearch';
 import type { TrackSearchQuery } from '../types';
@@ -13,7 +13,20 @@ const TrackSearchPage = () => {
   const resi = searchParams.get('resi');
   const phone = searchParams.get('phone');
 
-  const query: TrackSearchQuery | null = resi ? { resi } : phone ? { phone } : null;
+  const identifier = searchParams.get('identifier');
+
+  let query: TrackSearchQuery | null = null;
+  let mode: TrackSearchMode = 'resi';
+  if (resi) {
+    query = { resi };
+  } else if (phone) {
+    query = { phone };
+    mode = 'phone';
+  } else if (identifier) {
+    query = { identifier };
+    mode = 'identifier';
+  }
+
   const {
     orders,
     pagination,
@@ -32,14 +45,14 @@ const TrackSearchPage = () => {
         Cek status order
       </h1>
       <p className="text-sm leading-6 text-stone-500">
-        Pantau pesananmu dengan nomor resi
+        Pantau pesananmu dengan nomor resi, nomor WA, atau username
       </p>
     </div>
 
     <div className="rounded-3xl bg-white p-4 shadow-[0_1px_2px_rgba(28,25,23,0.04),0_12px_32px_-12px_rgba(28,25,23,0.08)] ring-1 ring-stone-200/70 sm:p-6">
       <TrackSearchForm
-        initialMode={phone && !resi ? 'phone' : 'resi'}
-        initialValue={resi ?? phone ?? ''}
+        initialMode={mode}
+        initialValue={resi || phone || identifier || ''}
         onSearch={(next) => setSearchParams(next)}
       />
     </div>

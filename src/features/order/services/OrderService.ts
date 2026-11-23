@@ -51,6 +51,14 @@ export const orderService = {
     await api.delete(`/admin/orders/${orderId}/proof-images/${imageId}`);
   },
 
+  // Backup semua order ke .xlsx (Ringkasan + 1 sheet per batch)
+  exportBackup: async (): Promise<{ blob: Blob; filename: string | null }> => {
+    const response = await api.get('/admin/orders/export', { responseType: 'blob' });
+    const disposition: string | undefined = response.headers['content-disposition'];
+    const filename = disposition?.match(/filename="?([^";]+)"?/)?.[1] ?? null;
+    return { blob: response.data, filename };
+  },
+
   replaceResiImage: async (orderId: string, image: File): Promise<void> => {
     const formData = new FormData();
     formData.append('image', image);

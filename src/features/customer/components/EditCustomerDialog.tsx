@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/toast';
+import { IDENTIFIER_LABEL, normalizeIdentifier } from '@/lib/customer';
 import { ORDER_LIMITS } from '@/features/order/schemas';
 import { useCustomerActions } from '../hooks/useCustomerActions';
 import { ADDRESS_MAX, customerSchema, type CustomerFormValues } from '../schemas';
@@ -31,8 +32,9 @@ const EditCustomerForm = ({ customer, onDone }: FormProps) => {
   const { update } = useCustomerActions();
 
   const defaultValues: CustomerFormValues = {
-    name: customer.name,
-    phone: customer.phone,
+    name: customer.name ?? '',
+    identifier: customer.identifier ?? '',
+    phone: customer.phone ?? '',
     address: customer.address ?? '',
   };
 
@@ -45,6 +47,7 @@ const EditCustomerForm = ({ customer, onDone }: FormProps) => {
           id: customer.id,
           payload: {
             name: value.name.trim(),
+            identifier: normalizeIdentifier(value.identifier),
             phone: value.phone.trim(),
             address: value.address.trim(),
           },
@@ -74,7 +77,7 @@ const EditCustomerForm = ({ customer, onDone }: FormProps) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Nama</FieldLabel>
+                <FieldLabel htmlFor={field.name}>Nama lengkap (opsional)</FieldLabel>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -90,7 +93,33 @@ const EditCustomerForm = ({ customer, onDone }: FormProps) => {
           }}
         </form.Field>
 
-        <form.Field name="phone">
+        <form.Field name="identifier">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>{IDENTIFIER_LABEL}</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  placeholder="adhya0160"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            );
+          }}
+        </form.Field>
+
+        {/* Error "isi salah satu" menempel di identifier. Validasi ulang saat no WA diubah, supaya
+            error-nya hilang dan tidak memblokir submit berikutnya. */}
+        <form.Field
+          name="phone"
+          listeners={{ onChange: () => void form.validateField('identifier', 'change') }}
+        >
           {(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
             return (
@@ -106,8 +135,8 @@ const EditCustomerForm = ({ customer, onDone }: FormProps) => {
                   aria-invalid={isInvalid}
                 />
                 <FieldDescription>
-                  Dipakai untuk mengenali customer yang order ulang. Nomor yang sudah dipakai
-                  customer lain akan ditolak.
+                  Identifier dan no WA dipakai untuk mengenali customer yang order ulang. Isi
+                  minimal salah satu; yang sudah dipakai customer lain akan ditolak.
                 </FieldDescription>
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>

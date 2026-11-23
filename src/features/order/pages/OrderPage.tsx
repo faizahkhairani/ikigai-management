@@ -1,31 +1,35 @@
-import { useState } from 'react';
-import type { RowSelectionState } from '@tanstack/react-table';
-import { useBatches } from '@/features/batch/hooks/useBatch';
-import OrderBulkActionBar from '../components/OrderBulkActionBar';
-import OrderFilterBar from '../components/OrderFilterBar';
-import OrderTable from '../components/OrderTable';
-import { useBulkOrderActions } from '../hooks/useBulkOrderActions';
-import { useOrders } from '../hooks/useOrders';
-import type { OrderFilters, OrderStatus, PaymentStatus } from '../types';
-import PageHeader from '@/components/common/PageHeader';
-import { notifyBulkResult } from '../utils/notifyBulkResult';
-import { toast } from '@/components/ui/toast';
-import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
-import OpenOrderDialog from '../components/OpenOrderDialog';
-import { useCreateOrder } from '../hooks/useCreateOrder';
-import OrderDetailDialog from '../components/OrderDetailDialog';
-import TablePagination from '@/components/common/TablePagination';
-import { useSearchParams } from 'react-router-dom';
-import { readFiltersFromUrl } from '../utils/readFiltersFromUrl';
-import { useEffect } from 'react';
+import { useState } from "react";
+import type { RowSelectionState } from "@tanstack/react-table";
+import { useBatches } from "@/features/batch/hooks/useBatch";
+import OrderBulkActionBar from "../components/OrderBulkActionBar";
+import OrderFilterBar from "../components/OrderFilterBar";
+import OrderTable from "../components/OrderTable";
+import { useBulkOrderActions } from "../hooks/useBulkOrderActions";
+import { useOrders } from "../hooks/useOrders";
+import type { OrderFilters, OrderStatus, PaymentStatus } from "../types";
+import PageHeader from "@/components/common/PageHeader";
+import { notifyBulkResult } from "../utils/notifyBulkResult";
+import { toast } from "@/components/ui/toast";
+import { Button } from "@/components/ui/button";
+import { Download, Loader2 } from "lucide-react";
+import { useExportOrders } from "../hooks/useExportOrders";
+import { useAuthStore } from "@/features/auth/store";
+import OpenOrderDialog from "../components/OpenOrderDialog";
+import { useCreateOrder } from "../hooks/useCreateOrder";
+import OrderDetailDialog from "../components/OrderDetailDialog";
+import TablePagination from "@/components/common/TablePagination";
+import { useSearchParams } from "react-router-dom";
+import { readFiltersFromUrl } from "../utils/readFiltersFromUrl";
+import { useEffect } from "react";
 
 const PAGE_SIZE_OPTIONS = [10, 20, 50];
 const DEFAULT_PAGE_SIZE = 20;
 
 const OrderPage = () => {
   const [searchParams] = useSearchParams();
-  const [filters, setFilters] = useState<OrderFilters>(() => readFiltersFromUrl(searchParams));   
+  const [filters, setFilters] = useState<OrderFilters>(() =>
+    readFiltersFromUrl(searchParams)
+  );
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
@@ -33,12 +37,21 @@ const OrderPage = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const { batches } = useBatches();
-  const { orders, pagination, isLoading, isFetching, error } = useOrders(filters, page, pageSize);
+  const { orders, pagination, isLoading, isFetching, error } = useOrders(
+    filters,
+    page,
+    pageSize
+  );
   const { bulkStatus, bulkPayment } = useBulkOrderActions();
   const createOrder = useCreateOrder();
+  const exportOrders = useExportOrders();
+  // Panel ini cuma bisa diakses akun admin (dicek juga di server), tombol muncul kalau profil admin ada
+  const isAdmin = useAuthStore((state) => state.profile !== null);
 
   // Cuma order yang lagi tampil yang dihitung, id "sisa" dari filter lama diabaikan
-  const selectedIds = orders.filter((order) => rowSelection[order.id]).map((order) => order.id);
+  const selectedIds = orders
+    .filter((order) => rowSelection[order.id])
+    .map((order) => order.id);
 
   // Hasil filter bisa menyusut (misal setelah bulk update). Kalau halaman sekarang
   // jadi melebihi total halaman, mundur ke halaman terakhir.
@@ -59,7 +72,7 @@ const OrderPage = () => {
     setIsDetailOpen(true);
   };
 
-   const handlePageChange = (nextPage: number) => {
+  const handlePageChange = (nextPage: number) => {
     setPage(nextPage);
     setRowSelection({}); // aksi massal cuma berlaku untuk baris di halaman yang tampil
   };
@@ -75,14 +88,14 @@ const OrderPage = () => {
       { orderIds: selectedIds, status },
       {
         onSuccess: (result) => {
-          notifyBulkResult(result, orders, 'diubah statusnya');
+          notifyBulkResult(result, orders, "diubah statusnya");
           setRowSelection({});
         },
         onError: (err: any) =>
           toast.add({
-            type: 'error',
-            description: err.response?.data?.error ?? 'Gagal mengubah status',
-            priority: 'high',
+            type: "error",
+            description: err.response?.data?.error ?? "Gagal mengubah status",
+            priority: "high",
           }),
       }
     );
@@ -92,17 +105,28 @@ const OrderPage = () => {
       { orderIds: selectedIds, paymentStatus },
       {
         onSuccess: (result) => {
-          notifyBulkResult(result, orders, 'diubah status pembayarannya');
+          notifyBulkResult(result, orders, "diubah status pembayarannya");
           setRowSelection({});
         },
         onError: (err: any) =>
           toast.add({
-            type: 'error',
-            description: err.response?.data?.error ?? 'Gagal mengubah pembayaran',
-            priority: 'high',
+            type: "error",
+            description:
+              err.response?.data?.error ?? "Gagal mengubah pembayaran",
+            priority: "high",
           }),
       }
     );
+
+  const handleExport = () =>
+    exportOrders.mutate(undefined, {
+      onError: () =>
+        toast.add({
+          type: "error",
+          description: "Gagal export data order",
+          priority: "high",
+        }),
+    });
 
   if (error) return <p className="text-destructive">Gagal memuat order.</p>;
 
@@ -116,12 +140,26 @@ const OrderPage = () => {
         />
 
         <div className="flex shrink-0 items-center gap-2">
-          <Button variant="white" className="text-sm py-5">
-            Import
-            <Download className="size-4" />
-          </Button>
+          {isAdmin && (
+            <Button
+              variant="white"
+              className="text-sm py-5"
+              onClick={handleExport}
+              disabled={exportOrders.isPending}
+            >
+              {exportOrders.isPending ? "Mengekspor..." : "Export Excel"}
+              {exportOrders.isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Download className="size-4" />
+              )}
+            </Button>
+          )}
 
-          <OpenOrderDialog batches={batches} onSubmit={createOrder.mutateAsync} />
+          <OpenOrderDialog
+            batches={batches}
+            onSubmit={createOrder.mutateAsync}
+          />
         </div>
       </div>
 

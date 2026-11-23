@@ -35,6 +35,7 @@ const CustomerTable = ({
         <TableRow>
           <TableHead className="w-14 pl-5 text-sm font-medium text-slate-900">No</TableHead>
           <TableHead className="h-11 pl-5 text-sm font-medium text-slate-900">Nama</TableHead>
+          <TableHead className="text-sm font-medium text-slate-900">Identifier</TableHead>
           <TableHead className="text-sm font-medium text-slate-900">No WA</TableHead>
           <TableHead className="text-sm font-medium text-slate-900">Jumlah Order</TableHead>
           <TableHead className="text-sm font-medium text-slate-900">Order Terakhir</TableHead>
@@ -51,6 +52,9 @@ const CustomerTable = ({
               </TableCell>
               <TableCell className="py-4 pl-5">
                 <Skeleton className="h-4 w-36" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-28" />
               </TableCell>
               <TableCell>
                 <Skeleton className="h-4 w-32" />
@@ -70,7 +74,7 @@ const CustomerTable = ({
         {!isLoading && customers.length === 0 && (
           <TableRow>
             <TableCell
-              colSpan={6}
+              colSpan={7}
               className="h-24 text-center text-muted-foreground"
             >
               Tidak ada customer yang cocok.
@@ -89,10 +93,12 @@ const CustomerTable = ({
                 {index + 1}
               </TableCell>
               <TableCell className="py-4 pl-5 font-medium text-slate-700">
-                {customer.name}
+                {customer.name ?? '-'}
               </TableCell>
 
-              <TableCell>{customer.phone}</TableCell>
+              <TableCell>{customer.identifier ?? '-'}</TableCell>
+
+              <TableCell>{customer.phone ?? '-'}</TableCell>
 
               <TableCell>
                 {customer._count.orders}

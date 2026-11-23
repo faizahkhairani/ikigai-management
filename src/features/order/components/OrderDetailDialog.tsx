@@ -85,8 +85,9 @@ const OrderDetailDialog = ({ orderId, open, onOpenChange, onSuccess }: Props) =>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
-                <InfoRow label="Customer" value={order.customer.name} />
-                <InfoRow label="No WA" value={order.customer.phone} />
+                <InfoRow label="Customer" value={order.customer.name ?? '-'} />
+                <InfoRow label="Identifier" value={order.customer.identifier ?? '-'} />
+                <InfoRow label="No WA" value={order.customer.phone ?? '-'} />
                 <InfoRow label="Batch" value={order.batch.name} />
                 <InfoRow label="Tipe" value={order_type_label[order.orderType]} />
                 <InfoRow label="Dibuat oleh" value={createdBy} />

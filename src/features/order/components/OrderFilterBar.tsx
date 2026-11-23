@@ -52,7 +52,7 @@ const OrderFilterBar = ({ filters, batches, onApply }: Props) => {
 
   <Input
     className="h-9 w-full rounded-md border-slate-200 bg-white pl-9 text-sm shadow-sm placeholder:text-slate-400 focus-visible:border-blue-400 focus-visible:ring-2 focus-visible:ring-blue-100"
-    placeholder="Cari resi, nama, atau no. WA"
+    placeholder="Cari resi, nama, identifier, no. WA"
     value={draft.search ?? ''}
     onChange={(e) =>
       updateDraft({ search: e.target.value || undefined })
