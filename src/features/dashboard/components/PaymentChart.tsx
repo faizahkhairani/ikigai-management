@@ -105,7 +105,6 @@ const PaymentChart = ({ byPayment }: Props) => {
             </Pie>
             <ChartLegend
               content={<ChartLegendContent nameKey="status" />}
-              className="flex-wrap gap-2"
             />
           </PieChart>
         </ChartContainer>

@@ -3,15 +3,12 @@ import { useBatches } from '@/features/batch/hooks/useBatch';
 import OptionSelect from '@/features/order/components/OptionSelect';
 import DashboardSkeleton from '../components/DashboardSkeleton';
 import StatCard from '../components/StatCard';
-import StatusPipelineCard from '../components/StatusPipelineCard';
-import PaymentChart from '../components/PaymentChart';
 import { useDashboard } from '../hooks/useDashboard';
 import { useAuthStore } from '@/features/auth/store'
 import { Package, CalendarCheck, PauseCircle, AlertTriangle, Layers } from 'lucide-react';
 import { cn } from "cn"
 import { NeedsAttentionCard } from '../components/NeedsAttentionCard';
 import TodayOrderTable from '../components/TodaysOrderTable';
-import StatusChart from '../components/StatusChart';
 
 const DashboardPage = () => {
   const { profile } = useAuthStore();
