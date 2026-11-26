@@ -11,6 +11,7 @@ import { Package, CalendarCheck, PauseCircle, AlertTriangle, Layers } from 'luci
 import { cn } from "cn"
 import { NeedsAttentionCard } from '../components/NeedsAttentionCard';
 import TodayOrderTable from '../components/TodaysOrderTable';
+import StatusChart from '../components/StatusChart';
 
 const DashboardPage = () => {
   const { profile } = useAuthStore();
@@ -107,9 +108,9 @@ const DashboardPage = () => {
             compareLabel="vs. yesterday, same time" 
             />
             <StatCard 
-            title="Hold" 
+            title=" On Hold" 
             value={data.heldCount} 
-            hint="Awaiting Payment" 
+            hint="Payment Pending" 
             tone="amber" 
             icon={PauseCircle} 
             compareLabel='Requires Follow Up'
@@ -124,22 +125,16 @@ const DashboardPage = () => {
             />
           </div>
 
-          <div className="grid items-start gap-4 lg:grid-cols-3">
-            <div className="lg:col-span-2 flex flex-col gap-3">
-              <StatusPipelineCard byStatus={data.byStatus} />
-              <TodayOrderTable orders={data.todayOrders} total={data.todayCount} />
-
-            </div>
-            <div className="flex flex-col gap-3">
-              {data.batch && (
+          <div className="grid items-start gap-4 lg:grid-cols-2">
+            <TodayOrderTable orders={data.todayOrders} total={data.todayCount} />
+            {data.batch && (
               <NeedsAttentionCard
                 batchId={data.batch.id}
                 data={data.needsAttention}
               />
               )}
-              <PaymentChart byPayment={data.byPayment} />
-
-            </div>
+            {/* <StatusChart byStatus={data.byStatus} />
+            <PaymentChart byPayment={data.byPayment} /> */}
           </div>
 
           

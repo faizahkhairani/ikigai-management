@@ -24,6 +24,9 @@ const PublicHomePage = lazy(() => import('@/features/public-order/pages/PublicHo
 const PublicOrderPage = lazy(() => import('@/features/public-order/pages/PublicOrderPage'));
 const TrackSearchPage = lazy(() => import('@/features/public-order/pages/TrackSearchPage'));
 const TrackDetailPage = lazy(() => import('@/features/public-order/pages/TrackDetailPage'));
+const GuideFeePage = lazy(
+  () => import("@/features/public-order/pages/GuideFeePage"),
+);
 
 function PageLoader() {
   return (
@@ -43,9 +46,10 @@ function FullScreenLoader() {
 }
 
 // Suspense per halaman, supaya layout tidak ikut hilang saat pindah halaman
-const withSuspense = (element: ReactNode, fallback: ReactNode = <PageLoader />) => (
-  <Suspense fallback={fallback}>{element}</Suspense>
-);
+const withSuspense = (
+  element: ReactNode,
+  fallback: ReactNode = <PageLoader />,
+) => <Suspense fallback={fallback}>{element}</Suspense>;
 
 const router = createBrowserRouter([
   {
@@ -53,20 +57,24 @@ const router = createBrowserRouter([
     element: <AuthProvider />,
     children: [
       {
-        path: '/login',
+        path: "/login",
         element: (
-          <GuestRoute>{withSuspense(<LoginPage />, <FullScreenLoader />)}</GuestRoute>
+          <GuestRoute>
+            {withSuspense(<LoginPage />, <FullScreenLoader />)}
+          </GuestRoute>
         ),
       },
       {
         element: (
-          <ProtectedRoute>{withSuspense(<DashboardLayout />, <FullScreenLoader />)}</ProtectedRoute>
+          <ProtectedRoute>
+            {withSuspense(<DashboardLayout />, <FullScreenLoader />)}
+          </ProtectedRoute>
         ),
         children: [
-          { path: '/dashboard', element: withSuspense(<DashboardPage />) },
-          { path: '/orders', element: withSuspense(<OrderPage />) },
-          { path: '/batch', element: withSuspense(<BatchPage />) },
-          { path: '/customers', element: withSuspense(<CustomerPage />) },
+          { path: "/dashboard", element: withSuspense(<DashboardPage />) },
+          { path: "/orders", element: withSuspense(<OrderPage />) },
+          { path: "/batch", element: withSuspense(<BatchPage />) },
+          { path: "/customers", element: withSuspense(<CustomerPage />) },
         ],
       },
     ],
@@ -76,9 +84,10 @@ const router = createBrowserRouter([
     element: withSuspense(<PublicLayout />, <FullScreenLoader />),
     children: [
       { index: true, element: withSuspense(<PublicHomePage />) },
-      { path: '/order-form', element: withSuspense(<PublicOrderPage />) },
-      { path: '/track', element: withSuspense(<TrackSearchPage />) },
-      { path: '/track/:token', element: withSuspense(<TrackDetailPage />) },
+      { path: "/order-form", element: withSuspense(<PublicOrderPage />) },
+      { path: "/track", element: withSuspense(<TrackSearchPage />) },
+      { path: "/track/:token", element: withSuspense(<TrackDetailPage />) },
+      { path: "/guidelines", element: withSuspense(<GuideFeePage />) },
     ],
   },
 ]);

@@ -6,4 +6,5 @@ export const readFiltersFromUrl = (params: URLSearchParams): OrderFilters => ({
   batchId: params.get('batchId') || undefined,
   status: order_status_options.find((option) => option.value === params.get('status'))?.value,
   date: order_date_options.find((option) => option.value === params.get('date'))?.value,
+  isHeld: params.get('isHeld') === 'true' ? 'true' : undefined,
 });

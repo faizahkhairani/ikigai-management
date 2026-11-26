@@ -1,4 +1,10 @@
-import type { OrderDatePreset, OrderStatus, OrderType, PaymentStatus } from './types';
+import type {
+  OrderDatePreset,
+  OrderHeldFilter,
+  OrderStatus,
+  OrderType,
+  PaymentStatus,
+} from './types';
 
 type BadgeVariant = 'default' | 'secondary' | 'destructive' | 'outline';
 
@@ -45,6 +51,10 @@ export const order_status_class: Record<OrderStatus, string> = {
 export const order_date_options: { value: OrderDatePreset; label: string }[] = [
   { value: 'today', label: 'Hari ini' },
   { value: 'month', label: 'Bulan ini' },
+];
+
+export const order_held_options: { value: OrderHeldFilter; label: string }[] = [
+  { value: 'true', label: 'Hold' },
 ];
 
 export const payment_status_label: Record<PaymentStatus, string> = {

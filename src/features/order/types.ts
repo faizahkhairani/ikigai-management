@@ -16,6 +16,7 @@ export type OrderStatus =
 
 export type PaymentStatus = 'unpaid' | 'dp' | 'lunas';
 export type OrderType = 'sharing_bagasi' | 'wa';
+export type OrderHeldFilter = 'true';
 
 export type OrderItem = {
   id: string;
@@ -47,6 +48,7 @@ export type OrderFilters = {
   batchId?: string;
   status?: OrderStatus;
   orderType?: OrderType;
+  isHeld?: OrderHeldFilter;
   search?: string;
   date?: OrderDatePreset;
 };
